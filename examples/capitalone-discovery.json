@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "company": {
+    "name": "Capital One",
+    "canonical_url": "https://capitalone.com",
+    "discovered_at": "2026-04-30T14:30:00Z"
+  },
+  "verdict": "BUILD",
+  "skip_reason": null,
+
+  "domain_signal": {
+    "summary": "Modernized US bank with substantial public engineering activity. Banking product itself is regulated and partner-gated, but their published OSS, talks, and blog reveal deep investment in cloud governance, data quality/profiling, ML reproducibility, and applied AI research at scale.",
+    "core_themes": ["cloud cost governance", "data profiling and comparison", "ML reproducibility", "applied AI research", "serverless infrastructure"],
+    "active_focus": ["AI/ML research (NVIDIA GTC 2026, ICLR 2026 presence)", "Slingshot cost optimization product", "Spark/Databricks tuning", "DevEx tooling"],
+    "domain_evidence": [
+      { "claim": "April 2026 blog posts on NVIDIA GTC, ICLR, AI Symposium, Spark executor tuning", "source_id": "src_C7" },
+      { "claim": "Authored Cloud Custodian (now CNCF incubating)", "source_id": "src_C9" },
+      { "claim": "DataProfiler ~1.5k stars, datacompy ~640 stars — meaningful OSS adoption in data-quality space", "source_id": "src_C8" },
+      { "claim": "Slingshot product publicly shipped with Python SDK targeting Snowflake/Databricks cost optimization", "source_id": "src_C5" }
+    ]
+  },
+
+  "product_surface": {
+    "apis": [
+      {
+        "kind": "rest",
+        "endpoint_family": "DevExchange (Credit Offers, Customer Transactions, Enhanced Decisioning, Prefill, Retrieve Consumer Bank Products)",
+        "spec_url": null,
+        "auth": ["partner_contract"],
+        "access_tier": "partner_only",
+        "notes": "Listed publicly on developer.capitalone.com but require contract-gated onboarding. Not callable by an arbitrary developer."
+      },
+      {
+        "kind": "rest",
+        "endpoint_family": "Slingshot API",
+        "spec_url": "https://slingshot-docs.capitalone.com/",
+        "auth": ["customer_credentials"],
+        "access_tier": "customer_only",
+        "notes": "Paid B2B SaaS product."
+      },
+      {
+        "kind": "rest",
+        "endpoint_family": "Nessie hackathon mock API",
+        "spec_url": null,
+        "auth": ["api_key"],
+        "access_tier": "dead",
+        "notes": "Endpoint offline as of discovery; not usable."
+      }
+    ],
+    "sdks": [
+      {
+        "language": "python",
+        "package": "c1s-slingshot-sdk-py",
+        "registry": "github_pages",
+        "last_release": "2.1.0",
+        "maintained": true,
+        "notes": "Targets Slingshot only — cloud cost optimization for Snowflake/Databricks. Not a banking SDK."
+      }
+    ],
+    "examples": [
+      { "url": "https://github.com/capitalone/CreditOffers-API-reference-app", "kind": "api_reference_app", "language": "java" }
+    ],
+    "webhooks": { "available": false, "doc_url": null }
+  },
+
+  "engineering_practices": {
+    "languages": ["python", "java", "scala"],
+    "notable_oss_authored": [
+      { "name": "Cloud Custodian", "domain": "cloud governance / policy-as-code", "now_owned_by": "CNCF (creator Kapil Thangavelu left for Stacklet)" },
+      { "name": "DataProfiler", "domain": "structured + unstructured data profiling", "now_owned_by": "Capital One" },
+      { "name": "datacompy", "domain": "DataFrame comparison (pandas/Spark)", "now_owned_by": "Capital One" },
+      { "name": "rubicon-ml", "domain": "ML experiment tracking", "now_owned_by": "Capital One" },
+      { "name": "locopy", "domain": "Redshift/Snowflake loaders", "now_owned_by": "Capital One" },
+      { "name": "edgetest", "domain": "dependency edge-version testing", "now_owned_by": "Capital One" },
+      { "name": "Stratum-Observability", "domain": "frontend telemetry", "now_owned_by": "Capital One" }
+    ],
+    "patterns_observed": ["policy-as-code for cloud governance", "data-quality-as-first-class-concern", "Python-dominant data tooling", "serverless-heavy AWS architecture"],
+    "notes": "Per the OSS-as-signal reframe: this is the richest dimension for Capital One. The bank product is locked, but the OSS portfolio reveals exactly what their platform engineering org cares about — and those domains (cloud governance, data quality, ML reproducibility) are themselves agent-skill-shaped problems."
+  },
+
+  "agentic_landscape": {
+    "official_mcp": null,
+    "community_mcps": [],
+    "existing_skills": [],
+    "company_ai_posture": {
+      "ships_ai_features": true,
+      "publishes_ai_research": true,
+      "evidence_source_ids": ["src_C7"],
+      "notes": "Heavy AI research investment per recent blog: DynaGuard, M4-RAG (multimodal retrieval), MR3 (multilingual reward modeling), VLM robustness research. Ships AI in their own internal DevEx tooling. No public agent-facing surface yet."
+    },
+    "competition_assessment": "Greenfield at the agent layer. No MCP exists for Slingshot, Cloud Custodian, DataProfiler, datacompy, or rubicon-ml. Any skill built here is the first in its niche."
+  },
+
+  "people_signal": [
+    {
+      "name": "George Mao",
+      "role": "Senior Distinguished Engineer",
+      "public_handles": {},
+      "current_focus": "Serverless / AWS Lambda at Capital One scale (InfoQ talk)",
+      "evidence_source_ids": ["src_C10"]
+    },
+    {
+      "name": "Shehzad Mevawalla",
+      "role": "Tech leadership (engineering org)",
+      "public_handles": {},
+      "current_focus": "Tech leadership / org direction (Feb 2026 profile)",
+      "evidence_source_ids": ["src_C11"]
+    },
+    {
+      "name": "Kapil Thangavelu",
+      "role": "Creator of Cloud Custodian (former Capital One)",
+      "public_handles": { "company": "Stacklet" },
+      "current_focus": "Cloud Custodian commercialization at Stacklet — flagged because his departure means Cloud Custodian's primary maintainer is no longer at CapOne",
+      "evidence_source_ids": ["src_C9"]
+    }
+  ],
+
+  "access_classification": [
+    { "surface": "Capital One GitHub OSS (DataProfiler, datacompy, rubicon-ml, locopy, etc.)", "tier": "open", "barriers": [] },
+    { "surface": "Slingshot SDK source + docs", "tier": "open", "barriers": [] },
+    { "surface": "Slingshot API runtime", "tier": "customer_only", "barriers": ["paid product license"] },
+    { "surface": "DevExchange banking APIs (Credit Offers, Customer Transactions, etc.)", "tier": "partner_only", "barriers": ["contract", "compliance review"] },
+    { "surface": "Capital One UK Open Banking APIs", "tier": "partner_only", "barriers": ["PSD2/Open Banking onboarding"] },
+    { "surface": "Nessie mock API", "tier": "dead", "barriers": ["endpoint offline"] },
+    { "surface": "Core banking platform", "tier": "internal", "barriers": ["not exposed publicly"] }
+  ],
+
+  "skill_targets": [
+    {
+      "id": "tgt_01",
+      "kind": "domain_skill",
+      "title": "Cloud cost governance with Capital One Slingshot",
+      "confidence": 0.7,
+      "rationale": "Real product, public Python SDK (v2.1.0), concrete agent-shaped task: query Snowflake/Databricks usage, identify cost anomalies, recommend optimizations. No competing skill exists.",
+      "supporting_source_ids": ["src_C5", "src_C6"],
+      "existing_competition": null,
+      "differentiation_hypothesis": "First Slingshot-aware skill; lift comes from teaching the SDK contract + cost-analysis idioms.",
+      "expected_lift_signal": "high"
+    },
+    {
+      "id": "tgt_02",
+      "kind": "domain_skill",
+      "title": "Data quality workflows with DataProfiler + datacompy",
+      "confidence": 0.75,
+      "rationale": "These are the two highest-starred Capital One OSS projects, both in the data-quality space. Agents working with tabular data routinely need profiling and comparison; a skill that knows the idioms of both libraries (and when to use which) directly serves an underserved niche.",
+      "supporting_source_ids": ["src_C8"],
+      "existing_competition": null,
+      "differentiation_hypothesis": "OSS-as-signal target: skill is for any developer using these tools, not exclusively Capital One employees. Maximum reach because the tools have community traction.",
+      "expected_lift_signal": "high"
+    },
+    {
+      "id": "tgt_03",
+      "kind": "domain_skill",
+      "title": "Cloud governance via Cloud Custodian policies",
+      "confidence": 0.5,
+      "rationale": "Cloud Custodian is the highest-impact OSS Capital One originated, but it now lives at CNCF and has its own community. Building a 'Capital One' skill for it is borderline mis-attributed.",
+      "supporting_source_ids": ["src_C9"],
+      "existing_competition": "Cloud Custodian's own docs + Stacklet's commercial offering.",
+      "differentiation_hypothesis": "Probably better attributed as a CNCF-Cloud-Custodian skill than a Capital One skill. Flag for human review of attribution.",
+      "expected_lift_signal": "medium"
+    },
+    {
+      "id": "tgt_04",
+      "kind": "tooling_assist",
+      "title": "ML experiment tracking with rubicon-ml",
+      "confidence": 0.4,
+      "rationale": "Lower stars than DataProfiler/datacompy but a real, maintained CapOne-owned tool in the experiment-tracking niche (competes loosely with MLflow/W&B).",
+      "supporting_source_ids": ["src_C8"],
+      "existing_competition": "MLflow, W&B documentation",
+      "differentiation_hypothesis": "Narrow but defensible — niche tool, no agent skill exists.",
+      "expected_lift_signal": "medium"
+    }
+  ],
+
+  "sources": [
+    { "id": "src_C1", "url": "https://developer.capitalone.com/", "kind": "official_docs", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "stale_unclear", "authority_rank": 1 },
+    { "id": "src_C2", "url": "https://developer.capitalone.com/products/", "kind": "official_docs", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "stale_unclear", "authority_rank": 1 },
+    { "id": "src_C3", "url": "https://developer.capitalone.co.uk/", "kind": "official_docs", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "active", "authority_rank": 1 },
+    { "id": "src_C4", "url": "https://capitalonesoftware.com/docs/", "kind": "official_docs", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "active", "authority_rank": 1 },
+    { "id": "src_C5", "url": "https://slingshot-docs.capitalone.com/", "kind": "product_docs", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "active", "authority_rank": 1 },
+    { "id": "src_C6", "url": "https://capitalone.github.io/c1s-slingshot-sdk-py/", "kind": "sdk_docs", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "v2.1.0_recent", "authority_rank": 1 },
+    { "id": "src_C7", "url": "https://www.capitalone.com/tech/blog/", "kind": "engineering_blog", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "entry_within_1_month", "authority_rank": 2 },
+    { "id": "src_C8", "url": "https://github.com/capitalone", "kind": "github_org", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "active", "authority_rank": 1 },
+    { "id": "src_C9", "url": "https://www.cncf.io/blog/2022/09/14/cloud-custodian-becomes-a-cncf-incubating-project/", "kind": "third_party_news", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "stable_history", "authority_rank": 3 },
+    { "id": "src_C10", "url": "https://www.infoq.com/presentations/serverless-capitalone-1/", "kind": "conference_talk", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "stable_history", "authority_rank": 3 },
+    { "id": "src_C11", "url": "https://thenewstack.io/capital-one-developer-enablement/", "kind": "third_party_profile", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "feb_2026", "authority_rank": 3 }
+  ]
+}

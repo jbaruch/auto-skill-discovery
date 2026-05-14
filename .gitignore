@@ -1,0 +1,15 @@
+# Per-run discovery / eval artifacts — large, regenerable, not source-of-truth
+runs/
+
+# Build / cache
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Local Tessl state (consumer side — content comes from tessl install at runtime)
+.tessl/tiles/

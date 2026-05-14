@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "company": {
+    "name": "Linear",
+    "canonical_url": "https://linear.app",
+    "discovered_at": "2026-04-30T14:30:00Z"
+  },
+  "verdict": "BUILD",
+  "skip_reason": null,
+
+  "domain_signal": {
+    "summary": "Project management tool for software teams; design-led, API-first, recently focused on agent-native workflows.",
+    "core_themes": ["issue tracking", "project planning", "developer workflow", "agent integration"],
+    "active_focus": ["Linear Agent (March 2026)", "MCP support (April 2026)", "Code Intelligence"],
+    "domain_evidence": [
+      { "claim": "Active changelog with entries every 1-2 weeks", "source_id": "src_03" },
+      { "claim": "Co-founder publicly framing Linear as agent-native PM tool", "source_id": "src_12" },
+      { "claim": "Demo repos (claude-managed-agents-demo, weather-bot) for agent-Linear integration", "source_id": "src_06" }
+    ]
+  },
+
+  "product_surface": {
+    "apis": [
+      {
+        "kind": "graphql",
+        "endpoint": "https://api.linear.app/graphql",
+        "spec_url": "https://studio.apollographql.com/public/Linear-API/schema/reference",
+        "auth": ["oauth2", "api_key", "agents_oauth"],
+        "access_tier": "open",
+        "notes": "Schema is introspectable. No REST surface."
+      }
+    ],
+    "sdks": [
+      {
+        "language": "typescript",
+        "package": "@linear/sdk",
+        "registry": "npm",
+        "last_release": "2026-04-21",
+        "maintained": true,
+        "notes": "Primary SDK; codegen tooling available for other languages but no official non-TS SDK."
+      }
+    ],
+    "examples": [
+      { "url": "https://github.com/linear/claude-managed-agents-demo", "kind": "starter_app", "language": "typescript" },
+      { "url": "https://github.com/linear/weather-bot", "kind": "agent_demo", "language": "typescript" },
+      { "url": "https://github.com/linear/linear-release", "kind": "cli", "language": "typescript" }
+    ],
+    "webhooks": { "available": true, "doc_url": "https://linear.app/docs/api-and-webhooks" }
+  },
+
+  "engineering_practices": {
+    "languages": ["typescript"],
+    "notable_oss_authored": [],
+    "patterns_observed": ["GraphQL-first", "monorepo SDK", "design-system-driven UI"],
+    "notes": "Linear's GitHub footprint is small and product-focused — they're not an OSS-publishing company. This is a signal in itself: tightly scoped public surface."
+  },
+
+  "agentic_landscape": {
+    "official_mcp": {
+      "url": "https://mcp.linear.app/sse",
+      "auth": "oauth",
+      "scope": "issues, projects, comments",
+      "doc_url": "https://linear.app/docs/mcp"
+    },
+    "community_mcps": [
+      { "repo": "jerhadf/linear-mcp-server", "kind": "stdio_mcp" },
+      { "repo": "tacticlaunch/mcp-linear", "kind": "stdio_mcp" },
+      { "repo": "magarcia/mcp-server-linearapp", "kind": "stdio_mcp" },
+      { "repo": "cosmix/linear-mcp", "kind": "stdio_mcp" }
+    ],
+    "existing_skills": [],
+    "company_ai_posture": {
+      "ships_ai_features": true,
+      "publishes_ai_research": false,
+      "evidence_source_ids": ["src_05", "src_11"],
+      "notes": "Linear ships Linear Agent + MCP as product features. Not a research org — agentic posture is product-integration, not foundation-model work."
+    },
+    "competition_assessment": "Official MCP covers issue/project/comment CRUD. A Tessl skill that just wraps the API is redundant. Differentiation must come from higher-level workflows (sprint planning, triage, release tracking) that compose multiple primitives — i.e. workflow_skill, not api_wrapper."
+  },
+
+  "people_signal": [
+    {
+      "name": "Karri Saarinen",
+      "role": "Co-founder / CEO",
+      "public_handles": { "personal_site": "https://karrisaarinen.com" },
+      "current_focus": "Design-led product direction, Linear-as-system",
+      "evidence_source_ids": ["src_13"]
+    },
+    {
+      "name": "Tuomas Artman",
+      "role": "Co-founder / CTO",
+      "public_handles": {},
+      "current_focus": "Engineering systems; recent Pragmatic Engineer feature on Linear's architecture",
+      "evidence_source_ids": ["src_14"]
+    },
+    {
+      "name": "Jamie Finnigan",
+      "role": "Engineering",
+      "public_handles": {},
+      "current_focus": "Remote-work systems (April 2026 blog post)",
+      "evidence_source_ids": ["src_05"]
+    }
+  ],
+
+  "access_classification": [
+    { "surface": "Linear GraphQL API", "tier": "open", "barriers": ["free signup; capped at 2 teams / 250 issues on free tier"] },
+    { "surface": "Linear MCP server", "tier": "open", "barriers": ["OAuth signup"] },
+    { "surface": "@linear/sdk source", "tier": "open", "barriers": [] },
+    { "surface": "Linear product (UI)", "tier": "customer_only", "barriers": ["account required; advanced features paid"] }
+  ],
+
+  "skill_targets": [
+    {
+      "id": "tgt_01",
+      "kind": "workflow_skill",
+      "title": "Linear sprint and release workflow recipes",
+      "confidence": 0.85,
+      "rationale": "Official MCP covers CRUD. Agents using Linear typically need workflow-level help: 'plan a sprint from this backlog', 'triage these incoming issues', 'cut a release and update tracking issues'. Current scenarios are not well-served by raw API access.",
+      "supporting_source_ids": ["src_01", "src_03", "src_04"],
+      "existing_competition": "Official Linear MCP (CRUD primitives only)",
+      "differentiation_hypothesis": "Compose MCP primitives into named multi-step workflows; ship eval scenarios that prove lift over raw MCP usage.",
+      "expected_lift_signal": "high"
+    },
+    {
+      "id": "tgt_02",
+      "kind": "api_wrapper",
+      "title": "Linear GraphQL query construction helper",
+      "confidence": 0.4,
+      "rationale": "GraphQL has high learning curve for agents that haven't seen the schema before; a skill could teach query construction patterns specific to Linear's schema (connections, filters, pagination).",
+      "supporting_source_ids": ["src_01", "src_02"],
+      "existing_competition": "Official MCP makes most queries unnecessary; @linear/sdk wraps common ones.",
+      "differentiation_hypothesis": "Useful only when agent needs to escape MCP/SDK and hit raw GraphQL — narrow window.",
+      "expected_lift_signal": "low"
+    },
+    {
+      "id": "tgt_03",
+      "kind": "tooling_assist",
+      "title": "Linear Agent SDK skill",
+      "confidence": 0.7,
+      "rationale": "Linear shipped a dedicated Agents SDK with its own auth flow. Building agents *for* Linear (not just *using* Linear from agents) is a distinct, currently-novel use case with a Claude integration demo already published.",
+      "supporting_source_ids": ["src_05", "src_06"],
+      "existing_competition": "None at the skill layer — only Linear's own demo repo.",
+      "differentiation_hypothesis": "First skill teaching the Linear Agents SDK lifecycle (auth, webhooks, response patterns).",
+      "expected_lift_signal": "high"
+    }
+  ],
+
+  "sources": [
+    { "id": "src_01", "url": "https://linear.app/developers", "kind": "official_docs", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "active", "authority_rank": 1 },
+    { "id": "src_02", "url": "https://studio.apollographql.com/public/Linear-API/schema/reference", "kind": "api_spec", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "live", "authority_rank": 1 },
+    { "id": "src_03", "url": "https://linear.app/changelog", "kind": "changelog", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "entry_within_2_weeks", "authority_rank": 1 },
+    { "id": "src_04", "url": "https://linear.app/docs/api-and-webhooks", "kind": "official_docs", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "active", "authority_rank": 1 },
+    { "id": "src_05", "url": "https://linear.app/blog", "kind": "engineering_blog", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "entry_within_1_month", "authority_rank": 2 },
+    { "id": "src_06", "url": "https://github.com/linear", "kind": "github_org", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "commit_today", "authority_rank": 1 },
+    { "id": "src_07", "url": "https://linear.app/docs/mcp", "kind": "official_docs", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "active", "authority_rank": 1 },
+    { "id": "src_11", "url": "https://linear.app/now", "kind": "company_updates", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "active", "authority_rank": 2 },
+    { "id": "src_12", "url": "https://karrisaarinen.com/posts/starting-linear-app/", "kind": "personal_blog", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "stable_history", "authority_rank": 2 },
+    { "id": "src_13", "url": "https://karrisaarinen.com", "kind": "personal_site", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "active", "authority_rank": 2 },
+    { "id": "src_14", "url": "https://newsletter.pragmaticengineer.com/p/linear", "kind": "third_party_profile", "fetched_at": "2026-04-30T14:25:00Z", "freshness_signal": "stable", "authority_rank": 3 }
+  ]
+}

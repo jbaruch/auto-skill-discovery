@@ -1,0 +1,9 @@
+{
+  "name": "auto-skill-potential-discovery",
+  "mode": "vendored",
+  "dependencies": {
+    "jbaruch/coding-policy": {
+      "version": "0.3.22"
+    }
+  }
+}
