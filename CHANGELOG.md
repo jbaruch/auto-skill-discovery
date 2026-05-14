@@ -4,6 +4,18 @@ All notable changes to `jbaruch/auto-skill-discovery` are documented here.
 
 The format roughly follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow semver.
 
+## [0.1.3] — 2026-05-14
+
+### Retired
+
+- `evals/batch-generate-the-snyk-users-batch-report` (+0.02 lift across two consecutive publish-time runs)
+- `evals/dprod-discovery-assessment-for-a-management-consultancy` (drifted from +0.05 → +0.00 between 0.1.1 and 0.1.2)
+- `evals/batch-rescue-the-devrel-summit-batch-run` (drifted from +0.03 → −0.06 between 0.1.1 and 0.1.2)
+
+Per `rules/plugin-evals.md` § Lift: the bar is per-scenario lift contribution, not raw scenario count. The 0.1.2 eval ran 16 scenarios; three of them consistently produced near-zero or noise-band lift — paying Tessl run-cost on every publish for zero load-bearing signal. Coverage trade-off acknowledged: `dprod` and `batch` skills now have positive-only coverage (no negative case under measurement); `select-target` retains positive-only coverage from the 0.1.2 retirement. The covered behaviors are documented in the skill prose, which is sufficient for prescription per the policy's retire clause.
+
+13 scenarios remain (down from 16), all currently producing measurable lift.
+
 ## [0.1.2] — 2026-05-14
 
 ### Fixed

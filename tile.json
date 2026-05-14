@@ -1,6 +1,6 @@
 {
   "name": "jbaruch/auto-skill-discovery",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "summary": "Automated pipeline that takes a company name and produces a custom Tessl skill plus an eval report showing per-scenario lift (baseline agent vs with-skill agent). A1 MVP cell of the produce/consume × personalization 2x2.",
   "private": false,
   "entrypoint": "README.md",

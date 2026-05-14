@@ -1,1 +1,0 @@
-{ "description": "Fault-tolerant batch completion with partial discovery failures", "include": ["./runs", "./skills"] }

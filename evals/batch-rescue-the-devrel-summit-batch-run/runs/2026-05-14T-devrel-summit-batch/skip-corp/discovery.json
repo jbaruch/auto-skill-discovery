@@ -1,6 +1,0 @@
-{
-  "verdict": "SKIP",
-  "company_name": "Skip Corp",
-  "slug": "skip-corp",
-  "skip_reason": "Company is a staffing/recruiting firm with no developer-facing products, APIs, or public technical documentation."
-}
