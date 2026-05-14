@@ -1,0 +1,44 @@
+{
+  "schema_version": 3,
+  "mode": "produce",
+  "company_slug": "orbitlabs",
+  "verdict": "BUILD",
+  "skill_targets": [
+    {
+      "id": "tgt_01",
+      "title": "OrbitLabs Telemetry SDK",
+      "kind": "sdk",
+      "confidence": 0.91,
+      "rationale": "OrbitLabs' telemetry SDK is the primary public developer surface — it has >2,000 GitHub stars, active npm downloads, and comprehensive API docs. Most external developers interact with the company through this library.",
+      "differentiation_hypothesis": "A skill built on this SDK would allow agents to instrument, query, and visualize telemetry pipelines autonomously, replacing a workflow that currently requires human expertise to navigate the SDK's event routing API.",
+      "existing_competition": "Generic observability SDK guides; no OrbitLabs-specific agent skill exists"
+    },
+    {
+      "id": "tgt_02",
+      "title": "OrbitLabs Config Management API",
+      "kind": "api",
+      "confidence": 0.78,
+      "rationale": "The config API underpins environment promotion workflows used by external platform engineering teams. Strong adoption signal from GitHub integrations and third-party blog posts.",
+      "differentiation_hypothesis": "Agents with this skill can manage multi-environment config promotion end-to-end, removing a manual handoff step between dev and ops.",
+      "existing_competition": "Generic REST config management patterns; Pulumi providers for config; no agent-ready skill"
+    },
+    {
+      "id": "tgt_03",
+      "title": "OrbitLabs Log Query Language",
+      "kind": "language",
+      "confidence": 0.55,
+      "rationale": "Proprietary query language for log analysis with moderate external adoption. Growing community interest but niche audience.",
+      "differentiation_hypothesis": "Agents fluent in OQL could answer complex observability questions without human query authoring.",
+      "existing_competition": "PromQL, Splunk SPL guides; no OQL-specific skill"
+    },
+    {
+      "id": "tgt_04",
+      "title": "OrbitLabs Legacy Exporter",
+      "kind": "tool",
+      "confidence": 0.42,
+      "rationale": "Deprecated export tool maintained for backward compatibility only. Minimal external usage.",
+      "differentiation_hypothesis": "Narrow migration use case with no growth trajectory.",
+      "existing_competition": "Custom migration scripts"
+    }
+  ]
+}

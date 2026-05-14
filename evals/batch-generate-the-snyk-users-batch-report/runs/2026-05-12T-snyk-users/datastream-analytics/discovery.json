@@ -1,0 +1,6 @@
+{
+  "verdict": "SKIP",
+  "company_name": "Datastream Analytics",
+  "slug": "datastream-analytics",
+  "skip_reason": "Company is in stealth mode with no public developer documentation, API reference, or SDK. All product documentation is behind an NDA-gated enterprise portal."
+}

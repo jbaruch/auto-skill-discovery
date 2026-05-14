@@ -1,0 +1,30 @@
+{
+  "schema_version": 3,
+  "mode": "produce",
+  "company": {
+    "name": "Acme Corp",
+    "canonical_url": "https://acmecorp.com",
+    "discovered_at": "2024-01-10T09:00:00Z"
+  },
+  "sources": [
+    {
+      "authority_rank": 1,
+      "kind": "docs",
+      "url": "https://docs.acmecorp.com/api"
+    }
+  ],
+  "skill_targets": [
+    {
+      "id": "tgt-acme-legacy",
+      "title": "acme-legacy-api-adapter",
+      "kind": "api_wrapper",
+      "confidence": 0.71,
+      "rationale": "Older API endpoint that has since been deprecated in favour of the gateway.",
+      "differentiation_hypothesis": "Covers legacy v1 endpoint; lower confidence than new target.",
+      "existing_competition": "Various API client libraries already exist for this endpoint.",
+      "domain_signal": "enterprise software",
+      "product_surface": "REST API v1 (legacy)",
+      "agentic_landscape": "Agents rarely use this endpoint since it lacks webhooks"
+    }
+  ]
+}

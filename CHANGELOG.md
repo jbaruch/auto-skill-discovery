@@ -4,6 +4,12 @@ All notable changes to `jbaruch/auto-skill-discovery` are documented here.
 
 The format roughly follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow semver.
 
+## [0.1.1] — 2026-05-14
+
+### Fixed
+
+- `.gitignore` rule `runs/` was matching eval-scenario fixture directories under `evals/<name>/runs/`. Scoped the pattern to root-only (`/runs/`) so per-run app outputs at the project root stay excluded while eval-scenario fixtures ship with the tile. The 0.1.0 publish landed in the registry but with two batch-driver scenarios missing their `runs/` fixture data; this release ships the complete eval suite.
+
 ## [0.1.0] — 2026-05-14
 
 Initial release of the A1 MVP cell of the operating-modes 2x2 (produce-mode discovery, no personalization). Built ahead of the AI Security Summit by Snyk for booth-scale conference runs.

@@ -1,0 +1,34 @@
+{
+  "schema_version": 2,
+  "company": {
+    "name": "Acme Corp",
+    "canonical_url": "https://acmecorp.com",
+    "discovered_at": "2024-01-15T14:30:00Z"
+  },
+  "sources": [
+    {
+      "authority_rank": 1,
+      "kind": "docs",
+      "url": "https://docs.acmecorp.com/api/v2/gateway"
+    },
+    {
+      "authority_rank": 2,
+      "kind": "github",
+      "url": "https://github.com/acmecorp/acme-sdk"
+    }
+  ],
+  "skill_targets": [
+    {
+      "id": "tgt-acme-gateway",
+      "title": "acme-api-gateway-onboarding",
+      "kind": "api_wrapper",
+      "confidence": 0.89,
+      "rationale": "Acme's API Gateway handles OAuth 2.0 token exchange and webhook registration with a non-standard scope format that generic OAuth libraries do not handle correctly.",
+      "differentiation_hypothesis": "Agents without this skill fail to construct valid scope strings for Acme's gateway, causing 403 errors that appear to be permission issues rather than format mismatches.",
+      "existing_competition": "Generic OAuth2 docs do not cover Acme's compound scope syntax.",
+      "domain_signal": "enterprise SaaS platform",
+      "product_surface": "REST API v2 gateway",
+      "agentic_landscape": "AI-assisted enterprise integration is growing; agents are increasingly asked to configure API connections"
+    }
+  ]
+}

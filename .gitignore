@@ -1,5 +1,6 @@
-# Per-run discovery / eval artifacts — large, regenerable, not source-of-truth
-runs/
+# Per-run discovery / eval artifacts at the project root — large, regenerable, not source-of-truth.
+# Root-anchored so eval-scenario fixtures under evals/<name>/runs/ stay tracked and ship in the published tile.
+/runs/
 
 # Build / cache
 __pycache__/

@@ -1,0 +1,6 @@
+{
+  "selection_status": "selected",
+  "selected_target_id": "tgt-acme-gateway",
+  "discovery_path": "./discovery.json",
+  "selection_rationale": "Primary target: highest confidence, modern API surface with webhook support and OAuth 2.0"
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 3,
+  "mode": "produce",
+  "company_slug": "orbitlabs",
+  "verdict": "BUILD",
+  "skill_targets": [
+    {
+      "id": "tgt_01",
+      "title": "OrbitLabs Telemetry SDK (Feb 2025)",
+      "kind": "sdk",
+      "confidence": 0.80,
+      "rationale": "February 2025 discovery — intermediate run.",
+      "differentiation_hypothesis": "Partial signal from earlier analysis.",
+      "existing_competition": "Generic observability SDKs"
+    },
+    {
+      "id": "tgt_02",
+      "title": "OrbitLabs Config API (Feb 2025)",
+      "kind": "api",
+      "confidence": 0.65,
+      "rationale": "Config API showing early adoption signals as of Feb 2025.",
+      "differentiation_hypothesis": "Moderate differentiation potential.",
+      "existing_competition": "Standard config management tools"
+    }
+  ]
+}

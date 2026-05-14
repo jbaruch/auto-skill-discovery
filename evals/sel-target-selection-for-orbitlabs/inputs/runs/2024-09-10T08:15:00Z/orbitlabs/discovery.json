@@ -1,0 +1,17 @@
+{
+  "schema_version": 3,
+  "mode": "produce",
+  "company_slug": "orbitlabs",
+  "verdict": "BUILD",
+  "skill_targets": [
+    {
+      "id": "tgt_01",
+      "title": "OrbitLabs Telemetry SDK (Sept 2024)",
+      "kind": "sdk",
+      "confidence": 0.72,
+      "rationale": "September 2024 discovery run — stale data.",
+      "differentiation_hypothesis": "Outdated hypothesis from earlier run.",
+      "existing_competition": "Generic telemetry libraries"
+    }
+  ]
+}
