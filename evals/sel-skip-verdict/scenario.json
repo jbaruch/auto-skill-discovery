@@ -1,0 +1,1 @@
+{ "description": "Finish-here when discovery verdict is SKIP — do not synthesize a pick", "include": ["./inputs"] }

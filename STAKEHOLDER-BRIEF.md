@@ -205,4 +205,4 @@ The blocker is no longer engineering effort. It's whether to commit to the booth
 
 ---
 
-*Artifacts: spec at `Automated Company Skills Eval App — Spec.md`; output contract at `discovery-output-contract.md`; built skills at `skills/{company-list-filter,discovery,select-target}/`; validation reports at `validation/`; per-company evidence at `runs/<UTC-timestamp>/<slug>/discovery.json`.*
+*Artifacts: spec at `SPEC.md`; output contract at `discovery-output-contract.md`; built skills at `skills/{company-list-filter,discovery,select-target}/`; validation reports at `validation/`; per-company evidence at `runs/<UTC-timestamp>/<slug>/discovery.json`.*

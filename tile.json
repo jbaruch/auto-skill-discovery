@@ -1,0 +1,34 @@
+{
+  "name": "jbaruch/auto-skill-discovery",
+  "version": "0.1.0",
+  "summary": "Automated pipeline that takes a company name and produces a custom Tessl skill plus an eval report showing per-scenario lift (baseline agent vs with-skill agent). A1 MVP cell of the produce/consume × personalization 2x2.",
+  "private": false,
+  "entrypoint": "README.md",
+  "keywords": [
+    "discovery",
+    "skill-generation",
+    "eval-lift",
+    "booth-automation",
+    "produce-mode"
+  ],
+  "skills": {
+    "discovery-produce": {
+      "path": "skills/discovery-produce/SKILL.md"
+    },
+    "discovery": {
+      "path": "skills/discovery/SKILL.md"
+    },
+    "select-target": {
+      "path": "skills/select-target/SKILL.md"
+    },
+    "build-and-evaluate": {
+      "path": "skills/build-and-evaluate/SKILL.md"
+    },
+    "batch-driver": {
+      "path": "skills/batch-driver/SKILL.md"
+    },
+    "company-list-filter": {
+      "path": "skills/company-list-filter/SKILL.md"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 3,
+  "mode": "produce",
+  "company": {"name": "FlowMakers", "canonical_url": "https://flowmakers.test", "discovered_at": "2026-05-14T00:00:00Z"},
+  "verdict": "BUILD",
+  "domain_signal": {"summary": "x", "core_themes": [], "active_focus": [], "domain_evidence": []},
+  "product_surface": {"apis": [], "sdks": [], "examples": [], "webhooks": {"available": true, "doc_url": "x"}},
+  "agentic_landscape": {"official_mcp": null, "community_mcps": [], "existing_skills": [], "company_ai_posture": {"ships_ai_features": false, "publishes_ai_research": false, "evidence_source_ids": []}, "competition_assessment": "n/a"},
+  "skill_targets": [
+    {"id": "tgt_lo", "kind": "domain_skill", "title": "Lowest target", "confidence": 0.55, "rationale": "x", "supporting_source_ids": ["src_01"], "existing_competition": "x", "differentiation_hypothesis": "x", "expected_lift_signal": "low"},
+    {"id": "tgt_hi", "kind": "workflow_skill", "title": "Highest target", "confidence": 0.82, "rationale": "x", "supporting_source_ids": ["src_01"], "existing_competition": "x", "differentiation_hypothesis": "x", "expected_lift_signal": "high"},
+    {"id": "tgt_mid", "kind": "workflow_skill", "title": "Middle target", "confidence": 0.68, "rationale": "x", "supporting_source_ids": ["src_01"], "existing_competition": "x", "differentiation_hypothesis": "x", "expected_lift_signal": "medium"},
+    {"id": "tgt_drop", "kind": "api_wrapper", "title": "Below threshold", "confidence": 0.42, "rationale": "x", "supporting_source_ids": ["src_01"], "existing_competition": "x", "differentiation_hypothesis": "x", "expected_lift_signal": "low"}
+  ],
+  "sources": [{"id": "src_01", "url": "https://flowmakers.test", "kind": "official_docs", "fetched_at": "2026-05-14T00:00:00Z", "authority_rank": 1}]
+}

@@ -1,0 +1,41 @@
+{
+  "context": "Tile-prescribed calibration: a saturated agentic landscape MUST lower confidence on api_wrapper targets (per the SKILL.md anchor 'saturated landscape: −0.2') and push the candidate set toward workflow_skill or domain_skill targeting gaps the official surface doesn't cover. Baseline agents skip this calibration and produce inflated confidences on naively-shaped api_wrapper targets.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Verdict is BUILD",
+      "description": "verdict=BUILD with at least one target at confidence >= 0.5.",
+      "max_score": 10
+    },
+    {
+      "name": "Top target is workflow_skill or domain_skill",
+      "description": "The highest-confidence skill_target has kind=workflow_skill or kind=domain_skill. NOT api_wrapper — the saturated landscape closes the wrapper space.",
+      "max_score": 20
+    },
+    {
+      "name": "Top target confidence in 0.6-0.85 range",
+      "description": "Top target confidence is between 0.6 and 0.85 inclusive. NOT >=0.90 (the saturated-landscape −0.2 calibration must apply).",
+      "max_score": 20
+    },
+    {
+      "name": "agentic_landscape.competition_assessment names the saturation",
+      "description": "competition_assessment field names at least three of: official MCP, agent toolkit, official skills repo, community MCPs. Generic 'competition exists' is insufficient.",
+      "max_score": 15
+    },
+    {
+      "name": "Webhook lifecycle target present",
+      "description": "At least one skill_target references the webhook lifecycle, signed verification, or retry-idempotency in its title or rationale — the canonical gap the MCP does not cover.",
+      "max_score": 15
+    },
+    {
+      "name": "Schema v3 produce-mode shape",
+      "description": "schema_version=3 AND mode=produce AND no internal_usage[] AND no internal_usage_surface/task_shape/target_population on any target.",
+      "max_score": 10
+    },
+    {
+      "name": "Validator passes",
+      "description": "Running skills/discovery/scripts/validate-output.py against the persisted JSON exits 0.",
+      "max_score": 10
+    }
+  ]
+}

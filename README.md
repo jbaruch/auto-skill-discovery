@@ -1,8 +1,12 @@
-# auto-skill-potential-discovery
+# jbaruch/auto-skill-discovery
+
+[![tessl](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.tessl.io%2Fv1%2Fbadges%2Fjbaruch%2Fauto-skill-discovery)](https://tessl.io/registry/jbaruch/auto-skill-discovery)
 
 Automated pipeline that takes a company name and produces a custom Tessl skill plus an eval report showing per-scenario lift (baseline agent vs with-skill agent). Designed for booth-scale runs (~100 leads) ahead of conferences.
 
-Strategic context: see [`Automated Company Skills Eval App — Spec.md`](./Automated%20Company%20Skills%20Eval%20App%20—%20Spec.md) (the 10-step pipeline contract) and [`STAKEHOLDER-BRIEF.md`](./STAKEHOLDER-BRIEF.md) (the four operating modes, what's validated, cost envelope).
+**Install:** `tessl install jbaruch/auto-skill-discovery`
+
+Strategic context: see [SPEC.md](SPEC.md) (the 10-step pipeline contract) and [STAKEHOLDER-BRIEF.md](STAKEHOLDER-BRIEF.md) (the four operating modes, what's validated, cost envelope).
 
 ## Operating modes
 
@@ -122,7 +126,7 @@ Inspect the artifacts at `runs/2026-05-13T-a1-smoke/stripe/`.
 
 ## Contract
 
-The discovery JSON shape is the canonical interface between every step. See [`discovery-output-contract.md`](./discovery-output-contract.md). Two modes (`consume`, `produce`) and three schema versions (1, 2, 3 — v3 introduces the `mode` field). The validator at `skills/discovery/scripts/validate-output.py` enforces shape; produce-mode rejects consume-side fields and vice versa.
+The discovery JSON shape is the canonical interface between every step. See [discovery-output-contract.md](discovery-output-contract.md). Two modes (`consume`, `produce`) and three schema versions (1, 2, 3 — v3 introduces the `mode` field). The validator at `skills/discovery/scripts/validate-output.py` enforces shape; produce-mode rejects consume-side fields and vice versa.
 
 ## Known gaps
 
@@ -132,4 +136,18 @@ The discovery JSON shape is the canonical interface between every step. See [`di
 
 ## Cost
 
-~$13–$28 per company on Opus 4.7 with prompt caching (clarifying $0–$2 + discovery $3–$6 + skill gen + eval + report $10–$20). A 100-company Snyk batch runs at ~$1.3k–$2.6k in tokens. See [`STAKEHOLDER-BRIEF.md`](./STAKEHOLDER-BRIEF.md) § 3 for the full breakdown.
+~$13–$28 per company on Opus 4.7 with prompt caching (clarifying $0–$2 + discovery $3–$6 + skill gen + eval + report $10–$20). A 100-company Snyk batch runs at ~$1.3k–$2.6k in tokens. See [STAKEHOLDER-BRIEF.md](STAKEHOLDER-BRIEF.md) § 3 for the full breakdown.
+
+## References
+
+Strategic / context documents:
+
+- [SPEC.md](SPEC.md) — 10-step pipeline contract, operating-modes 2x2, MVP scope
+- [STAKEHOLDER-BRIEF.md](STAKEHOLDER-BRIEF.md) — pitch with validation data and cost envelope
+- [discovery-output-contract.md](discovery-output-contract.md) — JSON shape every step consumes (v3, modes: consume / produce)
+
+Skill companion files (referenced from the SKILL.md execution plans):
+
+- [skills/discovery-produce/contract-reference.md](skills/discovery-produce/contract-reference.md) — produce-mode contract cheatsheet
+- [skills/discovery/contract-reference.md](skills/discovery/contract-reference.md) — consume-mode contract cheatsheet
+- [skills/company-list-filter/heuristics.md](skills/company-list-filter/heuristics.md) — pre-discovery triage rules

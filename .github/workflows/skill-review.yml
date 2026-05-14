@@ -1,0 +1,34 @@
+name: skill-review
+
+# Changed-skills review loop per jbaruch/coding-policy rules/context-artifacts.md.
+# Reviews only the skills whose files changed since the previous push; reviews
+# every skill on initial push, on manual workflow_dispatch, or against an
+# all-zeros sentinel SHA. Hard-fails (not silently degrades) when the diff base
+# is set but unreachable in the local clone.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+      - '.github/workflows/skill-review.yml'
+  pull_request:
+    paths:
+      - 'skills/**'
+      - '.github/workflows/skill-review.yml'
+  workflow_dispatch:
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: tesslio/setup-tessl@v2
+
+      - uses: jbaruch/coding-policy/.github/actions/skill-review@main
+        with:
+          threshold: '85'
+          skills-dir: 'skills'

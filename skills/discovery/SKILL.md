@@ -1,6 +1,6 @@
 ---
 name: discovery
-description: 'Automated source discovery and structure extraction for a single company (steps 1–2 of the workflow in `Automated Company Skills Eval App — Spec.md`). Takes a company name (optionally `parent/sub-brand` for MEGA_CORP cases that have been pre-scoped), produces a JSON artifact conforming to `discovery-output-contract.md`, and writes it to a versioned per-run directory. Output is the input to step 3 (human-gated target selection). Trigger phrases — "run discovery on X", "discover sources for X", "produce a discovery JSON for X".'
+description: 'Automated source discovery and structure extraction for a single company (steps 1–2 of the workflow in `SPEC.md`). Takes a company name (optionally `parent/sub-brand` for MEGA_CORP cases that have been pre-scoped), produces a JSON artifact conforming to `discovery-output-contract.md`, and writes it to a versioned per-run directory. Output is the input to step 3 (human-gated target selection). Trigger phrases — "run discovery on X", "discover sources for X", "produce a discovery JSON for X".'
 ---
 
 # Discovery Skill
@@ -46,6 +46,8 @@ Proceed immediately to Step 3.
 
 Fill every dimension of the discovery contract using the sources from Step 2. The contract is the schema; `discovery-output-contract.md` is authoritative. Quick reference at `skills/discovery/contract-reference.md` — read it once for this run.
 
+See [contract-reference.md](contract-reference.md) for the one-page cheatsheet of [discovery-output-contract.md](../../discovery-output-contract.md).
+
 Dimensions to populate:
 
 - `domain_signal` — what does the company do and care about right now? Extract from blog topics, OSS portfolio themes, talk titles, recent product announcements. `core_themes` capture stable identity; `active_focus` captures what's shipping in the last 3 months.
@@ -64,75 +66,28 @@ Generate the `skill_targets[]` array. This is the most important section of the 
 
 For each candidate target, fill: `id`, `kind ∈ {api_wrapper, domain_skill, workflow_skill, tooling_assist}`, `title`, `confidence` (0.0–1.0), `rationale`, `supporting_source_ids`, `existing_competition`, `differentiation_hypothesis`, `expected_lift_signal ∈ {high, medium, low}`, plus the v2 fields below.
 
-### Sub-step 4a — Classify each candidate surface as consumer-side or builder-side (REQUIRED before task_shape)
-
-This step exists because the most common failure mode of round-2 was systematic mislabeling of API/SDK-provider companies. The agent saw "100s of companies use Cohere v2 API daily" and labeled `USE/majority` — but those are Cohere's *customers*, not Cohere's *employees*. The booth visitor builds the API; they don't call it from their app.
+### Classify each candidate surface (consumer-side vs builder-side)
 
 For every candidate surface, ask: **does the target company's daily-employee population CONSUME this surface, or BUILD it?**
 
-- **Consumer-side surface** — the company's employees use it the same way external customers would. Examples:
-  - Cursor IDE (Anysphere engineers code in Cursor)
-  - Linear app (Linear engineers track issues in Linear)
-  - Spotify Backstage (every Spotify engineer browses the catalog daily)
-  - Internal monorepo conventions / internal design system (every engineer follows them)
-  - WorkOS dogfooding AuthKit on the WorkOS dashboard
-  - Man Group ArcticDB (quants run notebook research against it daily)
+- **Consumer-side** — employees use the surface as external customers would (Cursor at Anysphere, Backstage at Spotify, ArcticDB at Man Group). `USE/majority` targets pointing here ARE credible.
+- **Builder-side** — the company *ships* the surface for outside consumers (Cohere v2 API, Cerebras Inference, Modal SDK, Sixfold underwriting API). `USE/majority` targets pointing at builder-side surfaces are WRONG.
 
-  → `USE/majority` targets pointing at this surface ARE credible.
+When a candidate is builder-side, follow the three priority moves: (1) hunt aggressively for a consumer-side surface inside the company across blog / talks / hiring / X-on-X / handbooks / OSS / podcasts / eval harnesses — full search checklist in [classification-guide.md](classification-guide.md); (2) AUTHOR-shape target on the same surface (`small_team` population); (3) INTEGRATE/external target explicitly marked external.
 
-- **Builder-side surface** — the company *ships* this surface for outside consumers. Their relationship is "we build it," not "we use it as customers do." Examples:
-  - Cohere v2 Chat API (employees implement it; consumers are external)
-  - Cerebras Inference API (Cerebras runs the cloud; customers send tokens)
-  - turbopuffer query API (TP tunes the index; customers tune queries)
-  - PyannoteAI Cloud API (PyannoteAI trains models; customers integrate)
-  - Modal SDK from a customer's perspective (Modal builds Modal; customers use the SDK)
-  - Astronomer's managed Airflow (the *cited* DAG-choreography pain belongs to customers like GetYourGuide)
-  - Bright Data's primitives (BD builds the pipes; customers route requests)
-  - Sixfold's underwriting API (Sixfold ships it; carrier integration engineers consume it)
+`skip_reason` must enumerate which consumer-side searches were attempted and what each returned — generic "internal tooling is non-public" indicates lazy search.
 
-  → `USE/majority` targets pointing at *that* surface are WRONG. Three legitimate moves instead, in priority order — exhaust each before falling to the next:
+Both shortcuts violate the contract: lazy-SKIP without a search trail AND over-inflating INTEGRATE/external to USE/majority to clear the BUILD threshold.
 
-  1. **Hunt aggressively for a consumer-side surface inside the company.** "Builder-side at the public API" does NOT mean "no consumer-side surface exists." Internal surfaces are often described publicly. Run **all** of these searches before concluding none exists:
-     - Engineering blog: search for `"we use internally"`, `"our internal"`, `"how we built"`, `"dogfood"`, `"we run on our own"` — many companies blog explicitly about internal tooling
-     - Public conference talks: search YouTube / company channel for the last 24 months — engineers describing their own daily workflows is common
-     - Hiring / job posts: senior eng listings often describe day-in-the-life and name internal tools
-     - "X-on-X" patterns: companies notably build their own product with their own product (Modal-on-Modal, Vercel-on-Vercel, GitHub-on-GitHub, Spotify-on-Backstage) — this is a *consumer-side* signal even when the product is also sold externally
-     - Engineering handbook / dev onboarding docs that leaked public (GitLab handbook, PostHog handbook)
-     - OSS projects the company itself consumes (pyannote.audio at PyannoteAI, ArcticDB at Man Group, Backstage at Spotify) — OSS-as-signal still applies if the company *consumes* the OSS, not just authors it
-     - Podcast / interview appearances by named engineers describing their workflow
-     - Internal eval / test harnesses publicly documented (model eval pipelines, perf benchmarking suites)
+### Booth-aha framing — required per-target reasoning
 
-     **The skip_reason must enumerate which of these searches were attempted and what each returned.** Generic phrasing like "internal tooling is non-public" is insufficient and indicates lazy search.
+For each candidate surface, answer:
 
-  2. **AUTHOR-shape target on the same surface** — "how to author a new endpoint in our API following our conventions." Population is `small_team` (the API team only). Score will be lower (AUTHOR weight is 0.5). Use this when option 1 finds nothing AND there's a real authoring pattern an agent could codify.
+1. **Internal usage** — which entry in `internal_usage[]` (Step 3) does this surface map to? `weak` or `none` surfaces are fallback only.
+2. **Task shape** — `USE` (daily consumer), `AUTHOR` (small platform team extends it), or `INTEGRATE` (external builders).
+3. **Target population** — describe who at the company would use this; pick `size_class ∈ {majority, minority, small_team, external}`.
 
-  3. **INTEGRATE/external target** explicitly marked external — for the company's customers, not its employees. Booth-aha score will be low (`external` × `INTEGRATE` weights ≈ 0.06). Acknowledge this honestly rather than relabeling.
-
-**Honest-SKIP rule (after exhaustive consumer-side search):** if option 1's full search list has been run and documented in `skip_reason`, AND no candidate clears the BUILD floor of raw `confidence ≥ 0.5` in any task_shape, fall to Step 5 verdict `SKIP`. The `skip_reason` MUST list the specific consumer-side searches attempted (with what was searched and what came back) — not just a generic "non-public internal engineering" claim. A SKIP without a documented search trail is a process error and should be reworked.
-
-The booth-aha score is **advisory ranking only**, not a verdict gate. A target with `confidence ≥ 0.5` but low booth-aha score (e.g., AUTHOR/small_team yielding ~0.10) still produces BUILD — but the low score honestly signals to the human-gate at workflow Step 3 that the booth-aha audience is narrow. Don't inflate population/task_shape labels to pump the score.
-
-Inflating an INTEGRATE/external candidate to USE/majority to clear the BUILD threshold is a process error. Both shortcuts (lazy-SKIP without search and over-inflate-to-BUILD) violate the contract.
-
-### Booth-aha framing — required reasoning step
-
-The goal is a skill that produces an aha-moment for an employee of the target company stopping at our booth. That requires reasoning about *who at the company would actually use this skill* — not just whether the surface is publicly popular. Before drafting targets, answer for each candidate surface:
-
-1. **Internal usage**: which entry in `internal_usage[]` (Step 3) does this surface map to? If `level: weak` or `none`, the surface produces useful targets only as a fallback when no `confirmed`/`inferred` surface yields a viable candidate.
-2. **Task shape**: does the skill help a `USE` consumer of the surface (largest population — every engineer who touches it daily), an `AUTHOR` who extends/contributes to it (small platform team), or an `INTEGRATE` external builder (population is outside this company entirely)?
-3. **Target population**: describe who at the company would use this and `size_class ∈ {majority, minority, small_team, external}`.
-
-**Required population-disambiguation step before settling task_shape**: enumerate explicitly:
-
-- *Who at this target company* would invoke this skill in their daily work? List the role(s).
-- *Who outside this company* would invoke this skill? List the role(s) (third-party integrators, downstream customers, partner builders).
-- If the daily-use population is dominated by people *outside* the target company, the task_shape is `INTEGRATE` and `size_class: external` — even when the surface is heavily used by external integrators. The booth visitor IS an employee of the target company; their job dictates the bucketing.
-
-Concrete trap 1 — at Spotify, "Backstage scaffolder action authoring" is a popular-OSS target with `task_shape: AUTHOR` and `size_class: small_team` — the booth visitor is overwhelmingly *not* on the platform team. The right target is `task_shape: USE` for the catalog/scaffolder/tech-docs daily workflow with `size_class: majority`.
-
-Concrete trap 2 — at PyannoteAI, "voice-AI pipeline using their cloud API" looks like USE because integrators heavily use the API, but those integrators are *external builders*, not PyannoteAI employees. Correct shape: `INTEGRATE` / `external`. PyannoteAI engineers themselves *build* the API; they don't consume it as users.
-
-Concrete trap 3 — at Forter, the TACP integration target is an external-merchant task; Forter platform engineers wrote the protocol but don't integrate against it. Correct shape: `INTEGRATE` / `external`.
+**Population disambiguation rule:** enumerate *who at this target company* would invoke the skill vs. *who outside this company* would. If the daily-use population is dominated by people *outside* the target company, the shape is `INTEGRATE`/`external` — even when the surface is heavily used by external integrators. Traps and worked examples (Spotify Backstage authoring, PyannoteAI Cloud API, Forter TACP) live in [classification-guide.md](classification-guide.md).
 
 ### Required v2 fields per target
 
@@ -142,20 +97,12 @@ Concrete trap 3 — at Forter, the TACP integration target is an external-mercha
 
 ### Kind selection bias
 
-- `api_wrapper` is rarely the right shape — ~25% of routing candidates already publish official or community MCPs / skills. Prefer `workflow_skill` (multi-step recipes layered on top of existing primitives) or `domain_skill` (idioms specific to the company's tooling) when an MCP already covers CRUD.
+- `api_wrapper` is rarely the right shape — ~25% of routing candidates already publish official or community MCPs / skills. Prefer `workflow_skill` or `domain_skill` when an MCP already covers CRUD.
 - `tooling_assist` is appropriate when the company ships SDKs / agent runtimes themselves (Trigger.dev, Modal, Together AI) and the leverage is teaching the SDK lifecycle, not wrapping an API.
 
 ### Booth-aha ranking
 
-Sort the final array by:
-
-```
-score = confidence × iu_weight × pop_weight × ts_weight
-```
-
-Where `iu_weight` is `confirmed=1.0, inferred=0.7, weak=0.3, none=0.1`; `pop_weight` is `majority=1.0, minority=0.6, small_team=0.4, external=0.2`; `ts_weight` is `USE=1.0, AUTHOR=0.5, INTEGRATE=0.3`. Score is advisory ranking only — BUILD verdict still requires raw `confidence ≥ 0.5` on at least one target.
-
-Cap candidates at 3 per company for the human-gate at step 3 of the workflow. Sort by score descending so the human sees the highest-leverage candidate first.
+Sort by `score = confidence × iu_weight × pop_weight × ts_weight` — weight tables in [classification-guide.md](classification-guide.md). Score is advisory ranking only — BUILD verdict still requires raw `confidence ≥ 0.5` on at least one target. Cap candidates at 3 per company; sort descending so the human-gate sees the highest-leverage candidate first.
 
 Proceed immediately to Step 5.
 

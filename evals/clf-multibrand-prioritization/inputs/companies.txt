@@ -1,0 +1,16 @@
+Stripe
+Linear
+Vercel
+ZEISS
+IKEA
+Schibsted
+McKinsey
+Monterro
+PostHog
+Shopify
+Capital One
+Rabobank
+Thoughtworks
+Robert Bosch GmbH
+NEA
+Weights & Biases

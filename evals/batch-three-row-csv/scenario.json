@@ -1,0 +1,1 @@
+{ "description": "Run A1 batch pipeline across a small CSV with one shared DISCOVERY_RUN_TS and a final index.md", "include": ["./inputs"] }

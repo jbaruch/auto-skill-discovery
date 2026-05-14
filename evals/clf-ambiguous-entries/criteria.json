@@ -1,0 +1,56 @@
+{
+  "context": "The agent receives a list containing taglines, DBA/trading-as entries, acronyms, and genuinely unknown names. This scenario tests whether the agent correctly applies the tagline rule, the DBA/trading-as deduplication rule, the UNKNOWN verification protocol, and documents resolution reasoning.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Tagline resolved to company",
+      "description": "The entry 'Purpose AI at Every Scale' does NOT appear in UNKNOWN. It is resolved to its parent company (Liquid AI or equivalent) and appears in RUN_DISCOVERY or another appropriate bucket.",
+      "max_score": 14
+    },
+    {
+      "name": "DBA pair bucketed once",
+      "description": "The two entries 'Chishingo Ventures t/a HITL' and 'HITL' are treated as a single entity in the output — the company appears exactly once in any bucket (not twice as separate entries).",
+      "max_score": 14
+    },
+    {
+      "name": "DBA entity correctly routed",
+      "description": "The HITL entity (whether resolved from the t/a entry or the standalone 'HITL') is routed to RUN_DISCOVERY or an appropriate bucket — NOT silently dropped or left as UNKNOWN.",
+      "max_score": 10
+    },
+    {
+      "name": "Tagline resolution documented",
+      "description": "triage-report.md includes a resolution note or parenthetical for the tagline entry (e.g., indicating that 'Purpose AI at Every Scale' was identified as a tagline pointing to Liquid AI).",
+      "max_score": 10
+    },
+    {
+      "name": "Minimal UNKNOWN count",
+      "description": "The UNKNOWN bucket contains at most 3 entries. Non-obvious names like 'Asparanta' and 'LIAVELLA' may remain UNKNOWN, but well-known or resolvable entries must NOT be left there.",
+      "max_score": 10
+    },
+    {
+      "name": "Newsletter/non-engineering in SELF_OR_NA",
+      "description": "At least two of the following appear in SELF_OR_NA: 'Ben's Bites' (newsletter), 'ai.engineer' (conference organizer — strategic conflict), 'Scaling DevTools' (newsletter/media).",
+      "max_score": 10
+    },
+    {
+      "name": "Four sections in order",
+      "description": "triage-report.md contains four sections in this order: MEGA_CORP, SELF_OR_NA, RUN_DISCOVERY, UNKNOWN.",
+      "max_score": 8
+    },
+    {
+      "name": "RUN_DISCOVERY alphabetized",
+      "description": "Entries in the RUN_DISCOVERY section are listed one per line in alphabetical order.",
+      "max_score": 8
+    },
+    {
+      "name": "Dedup output file",
+      "description": "dedup-output.json exists and contains a JSON object with keys 'unique', 'count_in', and 'count_out'.",
+      "max_score": 8
+    },
+    {
+      "name": "Summary line format",
+      "description": "triage-report.md ends with a line matching the pattern 'Filtered N → R routed to discovery, U unknown; dropped X mega + Y self/NA.' with numbers filled in.",
+      "max_score": 8
+    }
+  ]
+}

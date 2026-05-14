@@ -1,0 +1,61 @@
+{
+  "context": "The agent received a raw list of conference attendee companies and must produce a triage report classifying them into four buckets. This scenario tests the deduplication step, correct section formatting, sector-neutral classification, and the required summary line.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Dedup output file",
+      "description": "A file named dedup-output.json exists and contains a JSON object with the keys 'unique', 'count_in', and 'count_out'.",
+      "max_score": 8
+    },
+    {
+      "name": "Count delta reported",
+      "description": "The triage report or dedup-output.json shows that count_in is larger than count_out, reflecting that duplicates were removed (e.g., 'stripe' and 'Stripe', 'Vercel' and '  Vercel', 'JP Morgan Chase' and 'JPMorgan Chase' collapsed to distinct unique entries).",
+      "max_score": 8
+    },
+    {
+      "name": "Four sections in order",
+      "description": "triage-report.md contains exactly four sections in this order: MEGA_CORP, SELF_OR_NA, RUN_DISCOVERY, UNKNOWN (section headers may vary in phrasing but must appear in this sequence).",
+      "max_score": 10
+    },
+    {
+      "name": "No rationale in MEGA_CORP",
+      "description": "The MEGA_CORP section lists company names only (comma-separated or similar compact format) with NO per-company explanation or rationale text for individual entries.",
+      "max_score": 8
+    },
+    {
+      "name": "No rationale in SELF_OR_NA",
+      "description": "The SELF_OR_NA section lists company names only with NO per-company explanation or rationale text for individual entries.",
+      "max_score": 8
+    },
+    {
+      "name": "RUN_DISCOVERY alphabetized",
+      "description": "Companies in the RUN_DISCOVERY section appear in alphabetical order (one per line).",
+      "max_score": 8
+    },
+    {
+      "name": "Banks and consultancies routed to RUN_DISCOVERY",
+      "description": "JPMorgan Chase (a bank) and Thoughtworks (a consultancy) appear in RUN_DISCOVERY — NOT in any drop bucket. Neither sector-based pre-filtering is applied.",
+      "max_score": 12
+    },
+    {
+      "name": "Obvious MEGA_CORP identified",
+      "description": "At least three of the following appear in MEGA_CORP: Google, Microsoft, Salesforce, Amazon (all are multi-brand or multi-product holding structures).",
+      "max_score": 10
+    },
+    {
+      "name": "Obvious SELF_OR_NA identified",
+      "description": "At least two of the following appear in SELF_OR_NA: Ben's Bites (newsletter), Harvard University (school), NEA (VC/investment firm), QUO Global (branding/hospitality consultancy).",
+      "max_score": 10
+    },
+    {
+      "name": "MEGA_CORP sub-brand note",
+      "description": "The MEGA_CORP section or its header includes a note indicating the caller can re-submit with a 'parent/sub-brand' format to bypass the drop.",
+      "max_score": 8
+    },
+    {
+      "name": "Summary line format",
+      "description": "triage-report.md ends with a summary line matching the pattern 'Filtered N → R routed to discovery, U unknown; dropped X mega + Y self/NA.' with actual numbers substituted.",
+      "max_score": 10
+    }
+  ]
+}

@@ -23,7 +23,7 @@ Use the `unique` array as the working list for Step 2. Report the count delta to
 
 ## Step 2 — Classify Each Unique Company
 
-For each name in the deduplicated list, assign exactly one bucket from the four defined in `skills/company-list-filter/heuristics.md`:
+For each name in the deduplicated list, assign exactly one bucket from the four defined in [heuristics.md](heuristics.md):
 
 - `MEGA_CORP` — multi-brand parent with no coherent single surface (drop pending sub-brand specifier)
 - `SELF_OR_NA` — not an engineering organization: own employer, foundation lab, conference, personal domain, VC, podcast, school, branding agency, non-tech consumer brand, etc. (drop)

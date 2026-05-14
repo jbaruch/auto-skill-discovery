@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "discovery_path": "./discovery.json",
+  "selected_target_id": null,
+  "selection_status": "skipped",
+  "selection_rationale": "Top target is too niche for the booth audience; reviewer wants to retry discovery with a clarifying-questions pass.",
+  "selected_at": "2026-05-14T00:05:00Z"
+}

@@ -1,6 +1,6 @@
 ---
 name: select-target
-description: 'Step 3 of the workflow — human-gated target selection from a discovery.json. Reads a discovery output, presents ranked skill_targets to the human (sorted by booth-aha score for consume-mode v2 and v3+consume, by raw confidence for v1 and produce-mode v3), accepts a single pick, and persists a selection.json alongside the discovery file. The only manual step in the pipeline per `Automated Company Skills Eval App — Spec.md`. Trigger phrases — "pick a target", "select skill target", "human-gate selection", "step 3 selection", "run selection on a company slug".'
+description: 'Step 3 of the workflow — human-gated target selection from a discovery.json. Reads a discovery output, presents ranked skill_targets to the human (sorted by booth-aha score for consume-mode v2 and v3+consume, by raw confidence for v1 and produce-mode v3), accepts a single pick, and persists a selection.json alongside the discovery file. The only manual step in the pipeline per `SPEC.md`. Trigger phrases — "pick a target", "select skill target", "human-gate selection", "step 3 selection", "run selection on a company slug".'
 ---
 
 # Target Selection Skill

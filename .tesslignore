@@ -1,0 +1,24 @@
+# Development-only artifacts — not shipped to consumers via the tile.
+
+# Per-run discovery + eval outputs (large, regenerable, not source-of-truth)
+runs/
+
+# Internal validation reports from earlier discovery rounds
+validation/
+
+# Smoke test harness (dev-side validation, not a consumer entry point)
+smoke-test-a1.sh
+
+# Project (consumer) manifest — orthogonal to the tile manifest we publish
+tessl.json
+
+# CI / agent-tooling configs
+.github/
+.agents/
+.codex/
+.gemini/
+.mcp.json
+.vscode/
+
+# Tessl runtime caches
+.tessl/tiles/

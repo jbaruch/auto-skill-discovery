@@ -1,0 +1,31 @@
+{
+  "context": "The CSV has a valid header but every data row has an empty company name. parse-attendees.py exits non-zero with ok=false in its stderr summary. The skill must refuse to initialize the batch and surface the dropped-rows count rather than creating an empty run directory.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No batch-manifest.json written",
+      "description": "No batch-manifest.json file was created. The skill stopped at the parse step rather than proceeding to Step 2.",
+      "max_score": 30
+    },
+    {
+      "name": "No per-company runs initiated",
+      "description": "No company subdirectories under runs/ were created during this invocation. The skill did not loop into discovery for non-existent companies.",
+      "max_score": 25
+    },
+    {
+      "name": "Dropped-row count surfaced",
+      "description": "The agent's response reports the number of dropped rows and the empty-company reason (or surfaces the parse-attendees.py stderr summary verbatim).",
+      "max_score": 20
+    },
+    {
+      "name": "Actionable next step suggested",
+      "description": "The agent suggests an actionable next step (e.g., 'fix the CSV', 'check the company column header', 'verify the source export') rather than just reporting the failure.",
+      "max_score": 15
+    },
+    {
+      "name": "Finishes cleanly",
+      "description": "The agent does not retry, loop, or invent synthetic company names to keep the batch going.",
+      "max_score": 10
+    }
+  ]
+}

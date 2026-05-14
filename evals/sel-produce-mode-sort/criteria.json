@@ -1,0 +1,36 @@
+{
+  "context": "Discovery is produce-mode v3. Tile-prescribed sort is by RAW confidence (no booth-aha multiplier). Targets below confidence 0.5 must be dropped from presentation. Booth-aha-score column shows '—' since produce-mode doesn't carry the v2 consume-side fields.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Three candidates presented",
+      "description": "Exactly three candidates appear in the presentation: tgt_hi, tgt_mid, tgt_lo. tgt_drop (confidence 0.42, below 0.5) is NOT presented.",
+      "max_score": 20
+    },
+    {
+      "name": "Sort order is confidence-descending",
+      "description": "Candidates appear in the order: tgt_hi (0.82), tgt_mid (0.68), tgt_lo (0.55). NOT by listing order in the input JSON.",
+      "max_score": 25
+    },
+    {
+      "name": "Booth-aha score is em-dash / not computed",
+      "description": "The booth-aha score column shows '—' (or 'n/a') for each row. The agent did NOT compute a booth-aha score for produce-mode targets (the v2 consume-side weights are not defined).",
+      "max_score": 20
+    },
+    {
+      "name": "No consume-mode columns shown",
+      "description": "The presentation does NOT include columns for task_shape, size_class, or internal-usage anchor — those are consume-mode-only fields not present in produce-mode targets.",
+      "max_score": 15
+    },
+    {
+      "name": "Explicit pick prompt",
+      "description": "The agent explicitly asks the human to reply with a target ID, 'skip', or 'defer'. It does NOT auto-pick.",
+      "max_score": 10
+    },
+    {
+      "name": "No selection.json yet",
+      "description": "selection.json is NOT written before the human responds. The skill pauses at Step 3 (the only human-in-the-loop step).",
+      "max_score": 10
+    }
+  ]
+}

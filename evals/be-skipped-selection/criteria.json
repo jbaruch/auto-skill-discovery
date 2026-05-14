@@ -1,0 +1,31 @@
+{
+  "context": "selection_status is 'skipped', so the human rejected all candidates. The skill must read the status, surface the rationale, and finish at Step 1 without scaffolding a skill, generating scenarios, or invoking any tessl CLI commands beyond what's needed to read the input.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No generated-skill directory created",
+      "description": "A generated-skill/ directory was NOT created. tessl skill new was not invoked.",
+      "max_score": 30
+    },
+    {
+      "name": "No scenarios.json written",
+      "description": "scenarios.json was NOT created. tessl scenario generate was not invoked.",
+      "max_score": 20
+    },
+    {
+      "name": "No eval runs",
+      "description": "Neither tessl eval run nor any other eval-execution command was invoked. baseline-results.json and with-skill-results.json were NOT created.",
+      "max_score": 20
+    },
+    {
+      "name": "selection_rationale surfaced",
+      "description": "The agent's response includes the selection_rationale text (the human's reason for skipping).",
+      "max_score": 15
+    },
+    {
+      "name": "Finishes cleanly",
+      "description": "The agent does not loop, retry, or invent a synthetic selection. It reports the skipped status and finishes.",
+      "max_score": 15
+    }
+  ]
+}

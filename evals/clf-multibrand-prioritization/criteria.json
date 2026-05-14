@@ -1,0 +1,66 @@
+{
+  "context": "The agent receives a list mixing clearly single-product companies, obvious MEGA_CORP names, hidden multi-brand entities that look single-brand, a PE/holding firm, and financial/consulting sector companies. This scenario tests whether the agent applies the active hidden-multi-brand check, avoids sector-level pre-filtering, and produces the correct report structure.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "ZEISS as MEGA_CORP",
+      "description": "ZEISS appears in the MEGA_CORP bucket (it has multiple sub-brand divisions: SMT, Vision, Microscopy, Industrial Metrology, Medical — distinct product lines with separate identities).",
+      "max_score": 8
+    },
+    {
+      "name": "IKEA as MEGA_CORP",
+      "description": "IKEA appears in the MEGA_CORP bucket (Inter IKEA Systems and Ingka Group are separate legal entities with different GitHub orgs and docs portals).",
+      "max_score": 8
+    },
+    {
+      "name": "Schibsted as MEGA_CORP",
+      "description": "Schibsted appears in the MEGA_CORP bucket (it restructured in 2025 into Vend Marketplaces ASA and Schibsted Media, creating distinct sub-brand surfaces).",
+      "max_score": 8
+    },
+    {
+      "name": "McKinsey as MEGA_CORP",
+      "description": "McKinsey appears in the MEGA_CORP bucket (has structurally separate sub-brands: QuantumBlack, McKinsey Digital, McKinsey Strategy — different GitHub orgs and doc portals).",
+      "max_score": 8
+    },
+    {
+      "name": "Monterro as MEGA_CORP",
+      "description": "Monterro appears in the MEGA_CORP bucket (it is a PE/holding firm whose value lies in its portfolio companies, not its own engineering surface — a holding-company structure).",
+      "max_score": 8
+    },
+    {
+      "name": "Capital One in RUN_DISCOVERY",
+      "description": "Capital One appears in RUN_DISCOVERY — NOT in MEGA_CORP or SELF_OR_NA. Being a bank does NOT justify dropping it; sector heuristics are forbidden.",
+      "max_score": 12
+    },
+    {
+      "name": "Rabobank in RUN_DISCOVERY",
+      "description": "Rabobank appears in RUN_DISCOVERY — NOT dropped due to being a financial institution.",
+      "max_score": 8
+    },
+    {
+      "name": "Thoughtworks in RUN_DISCOVERY",
+      "description": "Thoughtworks appears in RUN_DISCOVERY — NOT in MEGA_CORP. It is a boutique engineering consultancy, not a Big-N multi-practice firm.",
+      "max_score": 10
+    },
+    {
+      "name": "Robert Bosch as MEGA_CORP",
+      "description": "Robert Bosch GmbH appears in the MEGA_CORP bucket (multiple distinct sub-brands: BSH, ETAS, Bosch Global Software, Bosch Smart Home, eBike — separate engineering orgs).",
+      "max_score": 8
+    },
+    {
+      "name": "MEGA_CORP sub-brand note",
+      "description": "The MEGA_CORP section or its header includes a note that the caller can re-submit with 'parent/sub-brand' format to bypass the drop.",
+      "max_score": 6
+    },
+    {
+      "name": "Summary line format",
+      "description": "triage-report.md ends with a line matching 'Filtered N → R routed to discovery, U unknown; dropped X mega + Y self/NA.' with numbers filled in.",
+      "max_score": 8
+    },
+    {
+      "name": "NEA in SELF_OR_NA",
+      "description": "NEA appears in SELF_OR_NA (it is a VC/investment firm with no engineering surface of its own).",
+      "max_score": 8
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{ "description": "Sort produce-mode candidates by raw confidence (no booth-aha multiplier) and present top-3 to human", "include": ["./inputs"] }

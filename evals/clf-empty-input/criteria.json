@@ -1,0 +1,31 @@
+{
+  "context": "The input file contains only blank lines. The dedup script returns count_out=0. The skill must refuse to produce a fabricated triage and instead surface the situation honestly to the user — no triage-report.md, a clear explanation pointing at the file, and a suggestion for the user.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No triage-report.md written",
+      "description": "The file triage-report.md does NOT exist after the run. The agent recognized that an empty list cannot be triaged and refused to produce one.",
+      "max_score": 25
+    },
+    {
+      "name": "Dedup yield reported as zero",
+      "description": "The agent's response surfaces that the deduplication step yielded zero unique companies (count_out=0 or equivalent phrasing referring to an empty result).",
+      "max_score": 20
+    },
+    {
+      "name": "Input file named",
+      "description": "The agent's response names the file it read (inputs/companies.txt or equivalent), so the user knows which input was empty.",
+      "max_score": 15
+    },
+    {
+      "name": "Actionable next step suggested",
+      "description": "The agent suggests an actionable next step (e.g., 'provide a non-empty list', 're-export with company names', 'check the file source') rather than just reporting the failure.",
+      "max_score": 15
+    },
+    {
+      "name": "No fabricated buckets",
+      "description": "The response does not invent companies, fabricate placeholder entries, or produce any of the four buckets (MEGA_CORP, SELF_OR_NA, RUN_DISCOVERY, UNKNOWN) with synthetic content.",
+      "max_score": 25
+    }
+  ]
+}

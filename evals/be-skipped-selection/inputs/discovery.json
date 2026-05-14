@@ -1,0 +1,13 @@
+{
+  "schema_version": 3,
+  "mode": "produce",
+  "company": {"name": "DemoCo", "canonical_url": "https://democo.test", "discovered_at": "2026-05-14T00:00:00Z"},
+  "verdict": "BUILD",
+  "domain_signal": {"summary": "x", "core_themes": [], "active_focus": [], "domain_evidence": []},
+  "product_surface": {"apis": [], "sdks": [], "examples": [], "webhooks": {"available": false, "doc_url": null}},
+  "agentic_landscape": {"official_mcp": null, "community_mcps": [], "existing_skills": [], "company_ai_posture": {"ships_ai_features": false, "publishes_ai_research": false, "evidence_source_ids": []}, "competition_assessment": "n/a"},
+  "skill_targets": [
+    {"id": "tgt_01", "kind": "api_wrapper", "title": "x", "confidence": 0.62, "rationale": "x", "supporting_source_ids": ["src_01"], "existing_competition": "x", "differentiation_hypothesis": "x", "expected_lift_signal": "medium"}
+  ],
+  "sources": [{"id": "src_01", "url": "https://democo.test", "kind": "official_docs", "fetched_at": "2026-05-14T00:00:00Z", "authority_rank": 1}]
+}

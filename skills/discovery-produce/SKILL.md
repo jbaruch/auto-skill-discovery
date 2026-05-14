@@ -1,6 +1,6 @@
 ---
 name: discovery-produce
-description: 'Produce-mode automated source discovery for a single company (steps 1–2 of the workflow, A1 cell of the operating-modes 2x2 in `Automated Company Skills Eval App — Spec.md`). Takes a company name (optionally `parent/sub-brand` for MEGA_CORP cases that have been pre-scoped) and produces a discovery JSON conforming to `discovery-output-contract.md` — schema_version 3, mode=produce. Targets the company external/public API/SDK surface — what an outside developer would consume — rather than the internal dogfood surfaces consume-mode targets. Output is the input to step 3 (human-gated target selection). Trigger phrases: "run produce-mode discovery on X", "discover external API surface for X", "A1 discovery on X", "produce a produce-mode discovery JSON for X".'
+description: 'Produce-mode automated source discovery for a single company (steps 1–2 of the workflow, A1 cell of the operating-modes 2x2 in `SPEC.md`). Takes a company name (optionally `parent/sub-brand` for MEGA_CORP cases that have been pre-scoped) and produces a discovery JSON conforming to `discovery-output-contract.md` — schema_version 3, mode=produce. Targets the company external/public API/SDK surface — what an outside developer would consume — rather than the internal dogfood surfaces consume-mode targets. Output is the input to step 3 (human-gated target selection). Trigger phrases: "run produce-mode discovery on X", "discover external API surface for X", "A1 discovery on X", "produce a produce-mode discovery JSON for X".'
 ---
 
 # Discovery Skill — Produce Mode
@@ -47,7 +47,7 @@ Proceed immediately to Step 3.
 
 ## Step 3 — Extract Contract Dimensions
 
-Fill the produce-mode-relevant dimensions of `discovery-output-contract.md`. Quick reference at `skills/discovery-produce/contract-reference.md` — read it once for this run.
+Fill the produce-mode-relevant dimensions of [discovery-output-contract.md](../../discovery-output-contract.md). Quick reference at [contract-reference.md](contract-reference.md) — read it once for this run.
 
 Dimensions to populate:
 
