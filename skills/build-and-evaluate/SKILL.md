@@ -13,14 +13,27 @@ The skill is mode-agnostic — it works for produce-mode (A1) and consume-mode (
 
 **Note on phase ordering vs. the spec.** The spec's workflow numbers evals (steps 4–5) before skill generation (step 6) because logically the eval task is independent of the implementation. Tessl's tooling, however, generates scenarios from an existing skill/tile (`tessl scenario generate <tile-path>`), so the implementation here scaffolds the skill first, then generates scenarios from it. The final deliverables (skill + scenarios + lift + report) match the spec contract; only the execution order differs.
 
-## Step 1 — Load Selection and Resolve Context
+## Step 1 — Load Selection and Branch on Status
 
 Input is one of:
 
 - An explicit path to a `selection.json`, or
 - A company slug — find the most-recent `runs/<UTC-timestamp>/<slug>/selection.json` by lex-sort descending of the timestamp directory name.
 
-Load the file and validate that `selection_status == "selected"` and `selected_target_id` is populated. If status is `skipped` or `defer`, output the rationale and **finish here** — there's nothing to build.
+Load the file. **The first action is to branch on `selection_status` BEFORE doing anything else.** Do not scaffold a skill, do not invoke any `tessl` command, do not generate scenarios — read the status first.
+
+### Branch by `selection_status`:
+
+- **`selected`** with a populated `selected_target_id`: proceed to Step 2 (the only branch that runs the pipeline).
+- **`skipped`**: the human (or auto-pick gate) rejected all candidates. Output a brief explanation that surfaces:
+  - The literal value `selection_status: skipped` from the selection file
+  - The verbatim `selection_rationale` text from the selection file (or a faithful paraphrase if the field is unusually long)
+  - A statement that no scaffold, no scenarios, no review gate, and no eval run were performed
+  Then **finish here**. Do NOT proceed to Step 2. Do NOT invent a target. Do NOT fabricate lift numbers. Do NOT run any `tessl skill new`, `tessl scenario generate`, `tessl skill review`, or `tessl eval run` command. The pipeline halts at this step by design — that halt IS the correct behavior, not a degraded one.
+- **`defer`**: the human postponed the decision; no `selection.json` should normally exist in this state. If you encounter one, surface the situation and finish here without running any pipeline step.
+- **Any other value, or missing field**: surface the malformed input to the user and finish here.
+
+### If and only if `selection_status == "selected"`:
 
 Resolve the linked `discovery.json` from `discovery_path`. Locate the selected target by `selected_target_id` in `discovery.skill_targets[]`. Cache in working memory:
 
@@ -31,6 +44,10 @@ Resolve the linked `discovery.json` from `discovery_path`. Locate the selected t
 - `domain_signal`, `product_surface`, `agentic_landscape` — context for skill drafting
 
 Proceed immediately to Step 2.
+
+### Why this gate is load-bearing
+
+A pre-0.1.2 version of this skill had the branch buried mid-paragraph and the agent ignored it — given a `skipped` selection, the agent scaffolded a skill, generated scenarios, ran the review gate, attempted to run evals, and fabricated lift numbers in the run log. The published-time eval `be-skipped-selection` regressed from baseline 0.59 to with-skill 0.21 on exactly this failure mode. The branch is the first action in the step because the agent must commit to halting before any downstream tooling executes.
 
 ## Step 2 — Scaffold Skill
 

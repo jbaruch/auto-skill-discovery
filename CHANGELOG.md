@@ -4,6 +4,16 @@ All notable changes to `jbaruch/auto-skill-discovery` are documented here.
 
 The format roughly follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow semver.
 
+## [0.1.2] — 2026-05-14
+
+### Fixed
+
+- **Early-exit gates in `build-and-evaluate` and `batch-driver`**. The 0.1.1 publish-time eval surfaced two regressions: `be-skipped-selection` (-0.38) and `batch-empty-csv` (-0.43). With the skills loaded, the agent ignored the buried "halt if non-actionable input" instructions and proceeded through the pipeline anyway — scaffolding a skill against a `skipped` selection in one case, fabricating five companies for an empty CSV in the other. Both Step 1 sections rewritten to make the branch the FIRST action: explicit `selection_status` / `kept_rows` discrimination, named failure mode prohibitions ("do NOT invent a target", "do NOT fabricate company names"), and a "why this gate is load-bearing" footer naming the specific regressed scenario and its lift delta as the empirical motivation.
+
+### Retired
+
+- `evals/sel-target-selection-for-novaheim` and `evals/sel-target-selection-for-databridge`. Both scored 1.00/1.00 (baseline = with-skill = perfect) on the 0.1.1 publish-time eval, indicating coincidence with universal competence per `rules/plugin-evals.md` § Lift. The `select-target` skill's terminal branches (SKIP, AMBIGUOUS) prescribe what a baseline agent already produces — the tile's measurable value lives in the BUILD branch (mode-aware sort, confidence-drop, candidate presentation). The two BUILD-path scenarios (`sel-target-selection-for-orbitlabs`, `sel-target-selection-for-streamlinehq`) cover the tile-value surface.
+
 ## [0.1.1] — 2026-05-14
 
 ### Fixed

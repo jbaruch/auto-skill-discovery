@@ -1,8 +1,0 @@
-{
-  "schema_version": 2,
-  "company_slug": "novaheim",
-  "verdict": "SKIP",
-  "skip_reason": "Novaheim has no public GitHub organization, no developer-facing documentation, no open-source activity, and no detectable SDK or API surface. The company appears to operate exclusively in a closed enterprise model with no addressable engineering footprint.",
-  "search_attempted": true,
-  "skill_targets": []
-}

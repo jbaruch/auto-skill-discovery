@@ -9,13 +9,24 @@ Process steps in order. Do not skip ahead.
 
 This skill orchestrates the A1 pipeline across a CSV of companies. The per-company pipeline (discovery → selection → build-and-evaluate) is itself implemented by three other skills; this skill loops over them with a shared run timestamp so the batch is diff-able as a unit. Designed for pre-conference batch runs (Snyk attendee list, ~100 leads) where manual per-company target selection isn't feasible — selection auto-picks the top-confidence candidate and notes the auto-pick in `selection.json` for traceability.
 
-## Step 1 — Parse and Validate the Attendee CSV
+## Step 1 — Parse the CSV and Branch on Yield
 
 Input: a CSV path. Expected columns (case-insensitive header): `company` (required) and `domain` (optional). Empty cells, duplicate rows, and rows with non-printable characters are dropped with a warning.
 
-Run `skills/batch-driver/scripts/parse-attendees.py <csv-path>`. The script emits a normalized JSON list of `{slug, company_name, domain}` records to stdout and a `{ok, dropped_rows, kept_rows}` summary to stderr. Exit non-zero if no usable rows remain.
+Run `skills/batch-driver/scripts/parse-attendees.py <csv-path>`. The script emits a normalized JSON list of `{slug, company_name, domain}` records to stdout and a `{ok, dropped_rows, kept_rows}` summary to stderr.
 
-Cache the parsed list in working memory and proceed immediately to Step 2.
+### Branch by parse outcome:
+
+- **Script exits 0 with `kept_rows >= 1`**: proceed to Step 2 with the parsed list cached in working memory.
+- **Script exits non-zero (or `kept_rows == 0`)**: the CSV has no usable companies — every row was dropped (empty, duplicate, or non-printable). **Finish here.** Output an explanation that surfaces:
+  - The CSV path that was processed
+  - The stderr summary verbatim (`{ok: false, kept_rows: 0, dropped_rows: N, reasons: {...}}`)
+  - An actionable next step (re-export the CSV, verify the `company` column header is correct, check the source export job)
+  Do NOT proceed to Step 2. Do NOT create a run directory under `runs/`. Do NOT write a `batch-manifest.json`. Do NOT invent company names to keep the batch going — fabricating data to satisfy a downstream pipeline is the exact failure mode this gate exists to prevent. Do NOT invoke `discovery-produce` or any other per-company skill.
+
+### Why this gate is load-bearing
+
+A pre-0.1.2 version of this skill had the parse-outcome branch implicit ("Exit non-zero if no usable rows remain"), and the agent ignored it — given an empty CSV, the agent fabricated five companies, generated a run directory, wrote a `batch-manifest.json`, and ran the full per-company pipeline against the invented data. The published-time eval `batch-empty-csv` regressed from baseline 0.53 to with-skill 0.10 on exactly this failure mode. The branch is the first action in the step because the agent must commit to halting before any per-company tooling executes.
 
 ## Step 2 — Initialize the Batch Run Directory
 
