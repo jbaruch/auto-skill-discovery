@@ -24,7 +24,7 @@
     },
     {
       "name": "Validator passes",
-      "description": "Running skills/discovery/scripts/validate-output.py against the persisted JSON exits 0.",
+      "description": "The persisted JSON validates against the discovery-output-contract.md schema (required fields present, verdict in allowed set, cross-references resolve).",
       "max_score": 10
     }
   ]

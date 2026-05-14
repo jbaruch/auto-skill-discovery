@@ -1,5 +1,5 @@
 {
-  "context": "Tile-prescribed calibration: a saturated agentic landscape MUST lower confidence on api_wrapper targets (per the SKILL.md anchor 'saturated landscape: −0.2') and push the candidate set toward workflow_skill or domain_skill targeting gaps the official surface doesn't cover. Baseline agents skip this calibration and produce inflated confidences on naively-shaped api_wrapper targets.",
+  "context": "Tile-prescribed calibration: a saturated agentic landscape MUST lower confidence on api_wrapper targets (per the SKILL.md anchor 'saturated landscape: \u22120.2') and push the candidate set toward workflow_skill or domain_skill targeting gaps the official surface doesn't cover. Baseline agents skip this calibration and produce inflated confidences on naively-shaped api_wrapper targets.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -9,12 +9,12 @@
     },
     {
       "name": "Top target is workflow_skill or domain_skill",
-      "description": "The highest-confidence skill_target has kind=workflow_skill or kind=domain_skill. NOT api_wrapper — the saturated landscape closes the wrapper space.",
+      "description": "The highest-confidence skill_target has kind=workflow_skill or kind=domain_skill. NOT api_wrapper \u2014 the saturated landscape closes the wrapper space.",
       "max_score": 20
     },
     {
       "name": "Top target confidence in 0.6-0.85 range",
-      "description": "Top target confidence is between 0.6 and 0.85 inclusive. NOT >=0.90 (the saturated-landscape −0.2 calibration must apply).",
+      "description": "Top target confidence is between 0.6 and 0.85 inclusive. NOT >=0.90 (the saturated-landscape \u22120.2 calibration must apply).",
       "max_score": 20
     },
     {
@@ -24,7 +24,7 @@
     },
     {
       "name": "Webhook lifecycle target present",
-      "description": "At least one skill_target references the webhook lifecycle, signed verification, or retry-idempotency in its title or rationale — the canonical gap the MCP does not cover.",
+      "description": "At least one skill_target references the webhook lifecycle, signed verification, or retry-idempotency in its title or rationale \u2014 the canonical gap the MCP does not cover.",
       "max_score": 15
     },
     {
@@ -34,7 +34,7 @@
     },
     {
       "name": "Validator passes",
-      "description": "Running skills/discovery/scripts/validate-output.py against the persisted JSON exits 0.",
+      "description": "The persisted JSON validates against the discovery-output-contract.md schema (required fields present, verdict in allowed set, cross-references resolve).",
       "max_score": 10
     }
   ]

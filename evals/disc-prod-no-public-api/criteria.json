@@ -24,12 +24,12 @@
     },
     {
       "name": "No fabricated skill_targets",
-      "description": "skill_targets is empty. The skill did NOT fabricate a low-confidence (<0.5) target as a 'compromise' to avoid SKIP — that violates the honest-SKIP contract.",
+      "description": "skill_targets is empty. The skill did NOT fabricate a low-confidence (<0.5) target as a 'compromise' to avoid SKIP \u2014 that violates the honest-SKIP contract.",
       "max_score": 20
     },
     {
       "name": "Validator passes",
-      "description": "Running skills/discovery/scripts/validate-output.py against the persisted JSON exits 0.",
+      "description": "The persisted JSON validates against the discovery-output-contract.md schema (required fields present, verdict in allowed set, cross-references resolve).",
       "max_score": 10
     }
   ]

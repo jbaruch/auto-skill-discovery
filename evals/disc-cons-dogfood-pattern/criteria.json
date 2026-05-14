@@ -1,5 +1,5 @@
 {
-  "context": "Tile-prescribed reasoning: when a company runs X-on-X (uses its own product internally) AND publishes an external API, the consume-mode top target is the X-on-X surface with task_shape=USE and size_class=majority — NOT the external API surface (which is INTEGRATE/external for the booth audience). Baseline agents tend to surface the public API since it's the most visible.",
+  "context": "Tile-prescribed reasoning: when a company runs X-on-X (uses its own product internally) AND publishes an external API, the consume-mode top target is the X-on-X surface with task_shape=USE and size_class=majority \u2014 NOT the external API surface (which is INTEGRATE/external for the booth audience). Baseline agents tend to surface the public API since it's the most visible.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -29,7 +29,7 @@
     },
     {
       "name": "Validator passes",
-      "description": "Running skills/discovery/scripts/validate-output.py against the persisted JSON exits 0.",
+      "description": "The persisted JSON validates against the discovery-output-contract.md schema (required fields present, verdict in allowed set, cross-references resolve).",
       "max_score": 10
     }
   ]
