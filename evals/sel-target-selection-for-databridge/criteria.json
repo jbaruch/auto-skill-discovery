@@ -1,0 +1,46 @@
+{
+  "context": "The agent processes a discovery.json with verdict=AMBIGUOUS. This scenario tests whether the agent correctly branches on the AMBIGUOUS verdict: surfaces the sub_brands_detected list, displays the guidance field, and emits the required re-invoke message — then stops without attempting to present candidates or write a selection.json.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All sub-brands listed",
+      "description": "selection-output.md lists all three detected sub-brands: 'DataBridge Cloud', 'DataBridge Edge', and 'DataBridge Streams'.",
+      "max_score": 15
+    },
+    {
+      "name": "Guidance field surfaced",
+      "description": "selection-output.md includes the text of the guidance field from discovery.json (or a close paraphrase) — the explanation of why the company is ambiguous and what the sub-brand surfaces are.",
+      "max_score": 12
+    },
+    {
+      "name": "Re-invoke message present",
+      "description": "selection-output.md contains a message instructing the caller to re-invoke the discovery skill with a 'parent/sub-brand' format (e.g. 'databridge/databridge-cloud').",
+      "max_score": 15
+    },
+    {
+      "name": "AMBIGUOUS verdict stated",
+      "description": "selection-output.md explicitly states the verdict is 'AMBIGUOUS' (or 'Ambiguous') — the verdict value from the discovery file is surfaced, not silently implied.",
+      "max_score": 10
+    },
+    {
+      "name": "No selection.json created",
+      "description": "No file named selection.json exists anywhere in the workspace — the workflow correctly terminates after the AMBIGUOUS branch without persisting a selection.",
+      "max_score": 15
+    },
+    {
+      "name": "No candidates presented",
+      "description": "selection-output.md does NOT contain a ranked candidate table or numbered list of skill_targets — Step 2 (Sort Candidates) was not attempted.",
+      "max_score": 13
+    },
+    {
+      "name": "Workflow stops early",
+      "description": "selection-output.md does not ask the user to pick a target or prompt for a selection — the workflow finished at the AMBIGUOUS branch.",
+      "max_score": 10
+    },
+    {
+      "name": "Sub-brands shown individually",
+      "description": "selection-output.md lists each sub-brand as a separate item (not collapsed into a single sentence) — the sub_brands_detected array is expanded into individual entries.",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,1 +1,0 @@
-{ "description": "Refuse to run a batch when the CSV yields no usable rows", "include": ["./inputs"] }

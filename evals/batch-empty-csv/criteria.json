@@ -1,31 +1,46 @@
 {
-  "context": "The CSV has a valid header but every data row has an empty company name. parse-attendees.py exits non-zero with ok=false in its stderr summary. The skill must refuse to initialize the batch and surface the dropped-rows count rather than creating an empty run directory.",
+  "context": "The CSV has a valid header (Company, Domain) but every data row has empty company values. parse-attendees.py exits non-zero with ok=false and reports the dropped-row count in its stderr summary. This tests whether the agent halts at Step 1, surfaces the parse summary, and refuses to initialize a run directory for a batch with zero usable rows.",
   "type": "weighted_checklist",
   "checklist": [
     {
+      "name": "parse-attendees.py invoked",
+      "max_score": 15,
+      "description": "summary-log.txt references skills/batch-driver/scripts/parse-attendees.py being invoked on inputs/attendees.csv (or shows its JSON output)."
+    },
+    {
+      "name": "Empty-result reported as zero usable rows",
+      "max_score": 15,
+      "description": "summary-log.txt surfaces that the parse step yielded zero usable rows (kept_rows=0 or equivalent phrasing). The dropped-row counter is named explicitly (empty_company or equivalent)."
+    },
+    {
       "name": "No batch-manifest.json written",
-      "description": "No batch-manifest.json file was created. The skill stopped at the parse step rather than proceeding to Step 2.",
-      "max_score": 30
+      "max_score": 18,
+      "description": "No file named batch-manifest.json exists under any runs/ subdirectory created during this invocation."
     },
     {
-      "name": "No per-company runs initiated",
-      "description": "No company subdirectories under runs/ were created during this invocation. The skill did not loop into discovery for non-existent companies.",
-      "max_score": 25
+      "name": "No per-company subdirectories",
+      "max_score": 18,
+      "description": "No company-slug subdirectories under runs/ were created. The agent did not loop into discovery-produce on non-existent companies to keep the batch going."
     },
     {
-      "name": "Dropped-row count surfaced",
-      "description": "The agent's response reports the number of dropped rows and the empty-company reason (or surfaces the parse-attendees.py stderr summary verbatim).",
-      "max_score": 20
+      "name": "No index.md fabricated",
+      "max_score": 10,
+      "description": "No index.md file exists with synthesized per-company rows. The agent did not invent companies to fill an empty batch summary."
     },
     {
-      "name": "Actionable next step suggested",
-      "description": "The agent suggests an actionable next step (e.g., 'fix the CSV', 'check the company column header', 'verify the source export') rather than just reporting the failure.",
-      "max_score": 15
+      "name": "Re-export guidance present",
+      "max_score": 12,
+      "description": "summary-log.txt suggests an actionable next step for the marketing-ops team (e.g., re-export with company names populated, check the export job, verify the column header)."
     },
     {
-      "name": "Finishes cleanly",
-      "description": "The agent does not retry, loop, or invent synthetic company names to keep the batch going.",
-      "max_score": 10
+      "name": "Source CSV named",
+      "max_score": 7,
+      "description": "summary-log.txt names the CSV file processed (inputs/attendees.csv or the equivalent path)."
+    },
+    {
+      "name": "Header row noted",
+      "max_score": 5,
+      "description": "summary-log.txt acknowledges that the CSV header was valid (the failure is in the data rows, not the header parsing) — this saves the team from re-checking column names."
     }
   ]
 }

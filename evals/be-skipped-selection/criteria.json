@@ -1,31 +1,46 @@
 {
-  "context": "selection_status is 'skipped', so the human rejected all candidates. The skill must read the status, surface the rationale, and finish at Step 1 without scaffolding a skill, generating scenarios, or invoking any tessl CLI commands beyond what's needed to read the input.",
+  "context": "selection.json has selection_status='skipped' with selected_target_id=null. The build-and-evaluate skill must read the selection, surface the reviewer's rationale, and finish at Step 1 without scaffolding a skill, generating scenarios, running review, or invoking any eval command. Baseline agents tend to march through the workflow regardless of the gating status.",
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "No generated-skill directory created",
-      "description": "A generated-skill/ directory was NOT created. tessl skill new was not invoked.",
-      "max_score": 30
+      "name": "No generated-skill scaffold",
+      "max_score": 20,
+      "description": "No generated-skill/ directory exists in the working directory. The agent did NOT invoke 'tessl skill new'."
     },
     {
-      "name": "No scenarios.json written",
-      "description": "scenarios.json was NOT created. tessl scenario generate was not invoked.",
-      "max_score": 20
+      "name": "No tessl scenario generate",
+      "max_score": 15,
+      "description": "No scenarios.json file or evals/ scaffolding for the generated skill exists. The agent did NOT invoke 'tessl scenario generate'."
     },
     {
-      "name": "No eval runs",
-      "description": "Neither tessl eval run nor any other eval-execution command was invoked. baseline-results.json and with-skill-results.json were NOT created.",
-      "max_score": 20
+      "name": "No tessl skill review invocation",
+      "max_score": 12,
+      "description": "No skill-review.json artifact exists. The agent did NOT invoke 'tessl skill review --threshold 85' on a non-existent scaffolded skill."
+    },
+    {
+      "name": "No eval execution",
+      "max_score": 12,
+      "description": "Neither baseline-results.json nor with-skill-results.json exists. The agent did NOT invoke 'tessl eval run'."
+    },
+    {
+      "name": "selection_status surfaced in run-log.md",
+      "max_score": 10,
+      "description": "run-log.md explicitly states the selection_status value ('skipped') from selection.json."
     },
     {
       "name": "selection_rationale surfaced",
-      "description": "The agent's response includes the selection_rationale text (the human's reason for skipping).",
-      "max_score": 15
+      "max_score": 13,
+      "description": "run-log.md includes the selection_rationale text from selection.json (or a close paraphrase covering 'partner-gated', 'confidence 0.55', or 'clarifying answers')."
     },
     {
-      "name": "Finishes cleanly",
-      "description": "The agent does not loop, retry, or invent a synthetic selection. It reports the skipped status and finishes.",
-      "max_score": 15
+      "name": "No fabricated lift numbers",
+      "max_score": 10,
+      "description": "run-log.md does NOT contain a per-scenario lift table, an aggregate lift number, or any specific score values — there were no eval runs to report on, and the agent did not invent any."
+    },
+    {
+      "name": "Run-log.md exists and explains the halt",
+      "max_score": 8,
+      "description": "run-log.md is non-empty and clearly explains why the pipeline halted at the load-selection step rather than proceeding to scaffold."
     }
   ]
 }

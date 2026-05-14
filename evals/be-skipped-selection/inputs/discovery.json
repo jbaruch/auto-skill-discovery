@@ -1,13 +1,13 @@
 {
   "schema_version": 3,
   "mode": "produce",
-  "company": {"name": "DemoCo", "canonical_url": "https://democo.test", "discovered_at": "2026-05-14T00:00:00Z"},
+  "company": {"name": "Vertibrate Industries", "canonical_url": "https://vertibrate.test", "discovered_at": "2026-05-14T00:00:00Z"},
   "verdict": "BUILD",
-  "domain_signal": {"summary": "x", "core_themes": [], "active_focus": [], "domain_evidence": []},
-  "product_surface": {"apis": [], "sdks": [], "examples": [], "webhooks": {"available": false, "doc_url": null}},
-  "agentic_landscape": {"official_mcp": null, "community_mcps": [], "existing_skills": [], "company_ai_posture": {"ships_ai_features": false, "publishes_ai_research": false, "evidence_source_ids": []}, "competition_assessment": "n/a"},
+  "domain_signal": {"summary": "Mid-market HR SaaS for compliance and onboarding workflows.", "core_themes": ["HR", "compliance"], "active_focus": ["AI-assisted onboarding"], "domain_evidence": [{"claim": "Heavy compliance focus", "source_id": "src_01"}]},
+  "product_surface": {"apis": [{"kind": "rest", "endpoint": "https://api.vertibrate.test/v1", "endpoint_family": null, "spec_url": "https://vertibrate.test/docs", "auth": ["api_key"], "access_tier": "partner_only"}], "sdks": [], "examples": [], "webhooks": {"available": false, "doc_url": null}},
+  "agentic_landscape": {"official_mcp": null, "community_mcps": [], "existing_skills": [], "company_ai_posture": {"ships_ai_features": false, "publishes_ai_research": false, "evidence_source_ids": []}, "competition_assessment": "Greenfield but partner-gated"},
   "skill_targets": [
-    {"id": "tgt_01", "kind": "api_wrapper", "title": "x", "confidence": 0.62, "rationale": "x", "supporting_source_ids": ["src_01"], "existing_competition": "x", "differentiation_hypothesis": "x", "expected_lift_signal": "medium"}
+    {"id": "tgt_01", "kind": "api_wrapper", "title": "Vertibrate HR partner API wrapper", "confidence": 0.55, "rationale": "Partner-gated surface, narrow audience.", "supporting_source_ids": ["src_01"], "existing_competition": "none", "differentiation_hypothesis": "Encodes partner-auth flow.", "expected_lift_signal": "low"}
   ],
-  "sources": [{"id": "src_01", "url": "https://democo.test", "kind": "official_docs", "fetched_at": "2026-05-14T00:00:00Z", "authority_rank": 1}]
+  "sources": [{"id": "src_01", "url": "https://vertibrate.test/docs", "kind": "official_docs", "fetched_at": "2026-05-14T00:00:00Z", "authority_rank": 1}]
 }

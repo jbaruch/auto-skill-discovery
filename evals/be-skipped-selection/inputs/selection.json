@@ -3,6 +3,6 @@
   "discovery_path": "./discovery.json",
   "selected_target_id": null,
   "selection_status": "skipped",
-  "selection_rationale": "Top target is too niche for the booth audience; reviewer wants to retry discovery with a clarifying-questions pass.",
+  "selection_rationale": "Only candidate (tgt_01) is partner-gated with confidence 0.55 — booth visitors won't have partner credentials to test scenarios against. Recommend re-running discovery with clarifying answers narrowing to the visitor's actual API access tier.",
   "selected_at": "2026-05-14T00:05:00Z"
 }

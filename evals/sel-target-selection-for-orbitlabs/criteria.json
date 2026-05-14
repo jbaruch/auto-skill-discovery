@@ -1,0 +1,61 @@
+{
+  "context": "The agent must locate the most-recent discovery.json for slug 'orbitlabs' under inputs/runs/ using lex-sort descending of the timestamp directory names, then process a v3+produce discovery. This scenario tests slug-based lookup, produce-mode sorting (raw confidence, no booth-aha formula), correct produce-mode table columns, low-confidence filtering, and a skip selection.json with required non-empty rationale.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Most-recent run selected",
+      "description": "candidates-report.md or the selection artifact references the 2025-11-05T11:30:00Z directory (not the 2025-02-28 or 2024-09-10 runs) — the agent picked the lexicographically latest timestamp.",
+      "max_score": 15
+    },
+    {
+      "name": "Low-confidence target absent",
+      "description": "candidates-report.md does NOT include tgt_04 (confidence=0.42) — it was filtered out before presentation.",
+      "max_score": 10
+    },
+    {
+      "name": "Correct rank order by raw confidence",
+      "description": "In candidates-report.md, tgt_01 (confidence 0.91) appears before tgt_02 (0.78), which appears before tgt_03 (0.55) — sorted by raw confidence descending, not by booth-aha.",
+      "max_score": 10
+    },
+    {
+      "name": "No booth-aha formula applied",
+      "description": "candidates-report.md shows '—' or omits the booth-aha score column (produce-mode does not compute booth-aha). The table does NOT show computed booth-aha products.",
+      "max_score": 10
+    },
+    {
+      "name": "No consume-mode columns",
+      "description": "candidates-report.md does NOT include columns for task_shape, size_class, or internal-usage anchor — these are consume-mode-only columns omitted in produce-mode.",
+      "max_score": 8
+    },
+    {
+      "name": "Common columns present",
+      "description": "candidates-report.md includes all common columns: Rank, Target ID, Title, Kind, Confidence (raw), Rationale, Differentiation hypothesis, Existing competition.",
+      "max_score": 8
+    },
+    {
+      "name": "selection.json in run directory",
+      "description": "A selection.json exists inside the inputs/runs/2025-11-05T11:30:00Z/orbitlabs/ directory — written alongside the chosen discovery.json, not at the workspace root.",
+      "max_score": 12
+    },
+    {
+      "name": "selection_status is skipped",
+      "description": "The selection.json has 'selection_status': 'skipped'.",
+      "max_score": 8
+    },
+    {
+      "name": "selected_target_id is null",
+      "description": "The selection.json has 'selected_target_id': null (not a string, not omitted) — required for skipped status.",
+      "max_score": 8
+    },
+    {
+      "name": "selection_rationale is non-empty",
+      "description": "The selection.json has a non-empty 'selection_rationale' field containing the skip reason provided by the team.",
+      "max_score": 6
+    },
+    {
+      "name": "schema_version and selected_at present",
+      "description": "selection.json has 'schema_version': 1 and a valid ISO-8601 'selected_at' timestamp.",
+      "max_score": 5
+    }
+  ]
+}

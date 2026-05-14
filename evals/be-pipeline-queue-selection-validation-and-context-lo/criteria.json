@@ -1,0 +1,56 @@
+{
+  "context": "The agent is given a queue of two companies: one identified by slug (requiring timestamp directory resolution) and one by explicit path (with a deferred status). This tests whether the agent correctly resolves the most recent run by timestamp lex-sort, handles a non-selected status with early exit, applies the schema_version < 3 mode default, and produces the correct tessl skill new command.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "acme-corp: latest run selected",
+      "description": "run-log.md shows that for acme-corp, the 2024-01-15T14:30:00Z run was selected (not the 2024-01-10T09:00:00Z run) — the most recent timestamp wins by lexicographic descending sort",
+      "max_score": 15
+    },
+    {
+      "name": "acme-corp: mode defaults to consume",
+      "description": "run-log.md states the mode for acme-corp is 'consume' (because the discovery.json at the selected run has schema_version=2 and no explicit mode field, triggering the < 3 default)",
+      "max_score": 15
+    },
+    {
+      "name": "beta-inc: stops with defer rationale",
+      "description": "run-log.md states that beta-inc processing was stopped because selection_status is 'defer', and includes or paraphrases the rationale (low confidence, stealth mode, no API docs)",
+      "max_score": 15
+    },
+    {
+      "name": "beta-inc: no scaffold command",
+      "description": "run-log.md does NOT include a 'tessl skill new' command for beta-inc — the pipeline stops before the scaffold step",
+      "max_score": 8
+    },
+    {
+      "name": "acme-corp: correct --path in skill new",
+      "description": "The tessl skill new command for acme-corp uses '--path' pointing to the correct run directory plus '/generated-skill' (must include '2024-01-15T14:30:00Z/acme-corp/generated-skill' in the path)",
+      "max_score": 15
+    },
+    {
+      "name": "acme-corp: --name from target title",
+      "description": "The tessl skill new command for acme-corp includes '--name' derived from the selected target's title ('acme-api-gateway-onboarding' or a slugified equivalent)",
+      "max_score": 8
+    },
+    {
+      "name": "acme-corp: --description flag present",
+      "description": "The tessl skill new command for acme-corp includes a '--description' flag (value populated from target rationale or title)",
+      "max_score": 7
+    },
+    {
+      "name": "beta-inc: rationale quoted",
+      "description": "run-log.md includes the specific rationale text from beta-inc's selection.json (references stealth mode, low confidence, or lack of API documentation)",
+      "max_score": 7
+    },
+    {
+      "name": "acme-corp: run_dir identified",
+      "description": "run-log.md explicitly identifies the run directory as 'runs/2024-01-15T14:30:00Z/acme-corp/' (or equivalent path including that timestamp)",
+      "max_score": 6
+    },
+    {
+      "name": "acme-corp: target title in log",
+      "description": "run-log.md mentions the selected target's title ('acme-api-gateway-onboarding' or 'Acme API Gateway Onboarding') for the selected run",
+      "max_score": 4
+    }
+  ]
+}

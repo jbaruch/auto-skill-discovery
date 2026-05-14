@@ -1,0 +1,61 @@
+{
+  "context": "The agent processes a schema_version:2 (consume-mode) discovery.json with BUILD verdict containing four targets, one below the 0.5 confidence threshold. This scenario tests booth-aha score computation, low-confidence filtering, correct consume-mode table columns, selection.json schema correctness, same-directory placement, and validator script execution.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Low-confidence target dropped",
+      "description": "candidates-report.md does NOT include tgt_04 (confidence=0.40) — it was filtered out before presentation.",
+      "max_score": 10
+    },
+    {
+      "name": "Correct rank order",
+      "description": "In candidates-report.md, tgt_01 appears as Rank 1, tgt_02 as Rank 2, and tgt_03 as Rank 3 — ordered by descending booth-aha score (0.88, ~0.172, ~0.090).",
+      "max_score": 10
+    },
+    {
+      "name": "Booth-aha score column present",
+      "description": "candidates-report.md includes a booth-aha score column (or equivalent label) with computed numeric values for each candidate.",
+      "max_score": 10
+    },
+    {
+      "name": "Consume-mode columns included",
+      "description": "candidates-report.md includes all of: Task_shape (or task shape), size_class (or size class), and internal-usage anchor (surface name + level).",
+      "max_score": 10
+    },
+    {
+      "name": "Common columns present",
+      "description": "candidates-report.md includes all common columns: Target ID, Title, Kind, Confidence (raw), Rationale, Differentiation hypothesis, Existing competition.",
+      "max_score": 8
+    },
+    {
+      "name": "selection.json in inputs/",
+      "description": "selection.json exists at inputs/selection.json — written to the same directory as the discovery.json, not to the workspace root or any other location.",
+      "max_score": 12
+    },
+    {
+      "name": "schema_version is 1",
+      "description": "inputs/selection.json has 'schema_version': 1 (integer, not string).",
+      "max_score": 8
+    },
+    {
+      "name": "discovery_path is absolute",
+      "description": "inputs/selection.json has a 'discovery_path' field containing an absolute file path (starts with '/') pointing to the discovery.json.",
+      "max_score": 8
+    },
+    {
+      "name": "selection_status is selected",
+      "description": "inputs/selection.json has 'selection_status': 'selected' and 'selected_target_id': 'tgt_02'.",
+      "max_score": 8
+    },
+    {
+      "name": "selected_at is ISO-8601 UTC",
+      "description": "inputs/selection.json has a 'selected_at' field containing a valid ISO-8601 datetime string (e.g., '2025-...T...Z' or equivalent).",
+      "max_score": 8
+    },
+    {
+      "name": "Validator script run",
+      "description": "Evidence that skills/select-target/scripts/validate-selection.py was executed — either referenced in a log file, a notes file, or the task output shows the validator's JSON report.",
+      "max_score": 8
+    }
+  ]
+}

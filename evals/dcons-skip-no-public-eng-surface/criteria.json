@@ -1,0 +1,46 @@
+{
+  "context": "Baillie Gifford is an investment management firm with no public engineering blog, no GitHub org of substance, no public talks describing internal engineering, and no published consumer-side tooling for daily engineering work. This tests whether the agent runs the consume-mode probe set, declares verdict=SKIP with a documented search trail, and does not fabricate a low-confidence dogfood target from marketing content.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "verdict SKIP",
+      "max_score": 20,
+      "description": "discovery.json has verdict='SKIP' at the top level. The agent did not produce BUILD with a low-confidence target inflated from marketing-site keywords."
+    },
+    {
+      "name": "skip_reason names consumer-side probes",
+      "max_score": 20,
+      "description": "skip_reason enumerates at least four consumer-side probes that were attempted (engineering blog, conference talks, hiring posts, X-on-X patterns, engineering handbook, OSS the company consumes, podcast appearances, internal eval harnesses). Generic phrasing without a probe trail is insufficient."
+    },
+    {
+      "name": "search_attempted populated",
+      "max_score": 12,
+      "description": "discovery.json contains a search_attempted[] array with at least four distinct probe types named."
+    },
+    {
+      "name": "would_change_verdict_if populated",
+      "max_score": 8,
+      "description": "discovery.json contains a non-empty would_change_verdict_if field describing what observable change would flip the verdict."
+    },
+    {
+      "name": "no INTEGRATE/external inflation",
+      "max_score": 18,
+      "description": "discovery.json does NOT contain a skill_targets entry with task_shape='INTEGRATE' and size_class='external' presented as the primary BUILD candidate. The skill did not relabel an external-builder candidate as a consumer-side target to clear the BUILD floor."
+    },
+    {
+      "name": "sources present",
+      "max_score": 10,
+      "description": "discovery.json contains a sources[] array with at least one entry, confirming that probing was performed before declaring SKIP."
+    },
+    {
+      "name": "intake-notes.md exists",
+      "max_score": 8,
+      "description": "A file named intake-notes.md exists in the working directory with at least one paragraph explaining the SKIP reasoning."
+    },
+    {
+      "name": "company field present",
+      "max_score": 4,
+      "description": "discovery.json contains a company object with name='Baillie Gifford' (or the canonical equivalent)."
+    }
+  ]
+}

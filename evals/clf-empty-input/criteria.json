@@ -1,31 +1,41 @@
 {
-  "context": "The input file contains only blank lines. The dedup script returns count_out=0. The skill must refuse to produce a fabricated triage and instead surface the situation honestly to the user — no triage-report.md, a clear explanation pointing at the file, and a suggestion for the user.",
+  "context": "The exported file contains only blank lines — the deduplication step returns count_out=0. This tests whether the agent recognizes an unusable input and produces an explanatory artifact rather than fabricating a triage report from no data.",
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "No triage-report.md written",
-      "description": "The file triage-report.md does NOT exist after the run. The agent recognized that an empty list cannot be triaged and refused to produce one.",
-      "max_score": 25
+      "name": "triage-skipped.md exists",
+      "max_score": 15,
+      "description": "A file named triage-skipped.md exists in the working directory with at least one paragraph of content."
     },
     {
       "name": "Dedup yield reported as zero",
-      "description": "The agent's response surfaces that the deduplication step yielded zero unique companies (count_out=0 or equivalent phrasing referring to an empty result).",
-      "max_score": 20
+      "max_score": 15,
+      "description": "triage-skipped.md surfaces that the deduplication step yielded zero unique companies (count_out=0 or a clear phrasing referring to an empty result)."
     },
     {
-      "name": "Input file named",
-      "description": "The agent's response names the file it read (inputs/companies.txt or equivalent), so the user knows which input was empty.",
-      "max_score": 15
+      "name": "Input filename named",
+      "max_score": 10,
+      "description": "triage-skipped.md names the input file read (inputs/companies.txt or equivalent path)."
     },
     {
-      "name": "Actionable next step suggested",
-      "description": "The agent suggests an actionable next step (e.g., 'provide a non-empty list', 're-export with company names', 'check the file source') rather than just reporting the failure.",
-      "max_score": 15
+      "name": "Re-export guidance present",
+      "max_score": 12,
+      "description": "triage-skipped.md includes guidance the coworker can act on (e.g., re-export the file, verify the column header, check the source system)."
     },
     {
-      "name": "No fabricated buckets",
-      "description": "The response does not invent companies, fabricate placeholder entries, or produce any of the four buckets (MEGA_CORP, SELF_OR_NA, RUN_DISCOVERY, UNKNOWN) with synthetic content.",
-      "max_score": 25
+      "name": "No triage-report.md written",
+      "max_score": 20,
+      "description": "The file triage-report.md does NOT exist in the working directory. An empty source cannot be triaged into the four-bucket classification."
+    },
+    {
+      "name": "No fabricated four-section report",
+      "max_score": 18,
+      "description": "No file in the working directory contains the four MEGA_CORP / SELF_OR_NA / RUN_DISCOVERY / UNKNOWN section headers with synthesized company entries. The agent did not invent companies to fill the buckets."
+    },
+    {
+      "name": "dedup-output.json reflects empty result",
+      "max_score": 10,
+      "description": "If dedup-output.json exists, it shows count_in matching the row count of the input file and count_out=0 with unique as an empty array. If it does not exist, this criterion is satisfied by triage-skipped.md citing the equivalent values."
     }
   ]
 }

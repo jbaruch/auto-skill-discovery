@@ -1,0 +1,56 @@
+{
+  "context": "The agent processes a batch run where some companies have missing or malformed discovery data. This tests whether the agent continues past per-company failures, captures error outcomes, still invokes auto-select.py for valid BUILD entries, and produces the final index.md via summarize-batch.py despite partial failures.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Continues past malformed JSON",
+      "description": "completion-log.txt documents that the agent did NOT abort processing when encountering malformed-data's corrupted discovery.json, and continued to process remaining companies",
+      "max_score": 14
+    },
+    {
+      "name": "Continues past missing directory",
+      "description": "completion-log.txt documents that the agent handled missing-company (no discovery directory) without aborting the batch",
+      "max_score": 12
+    },
+    {
+      "name": "Error entries in log",
+      "description": "completion-log.txt includes an error record or note for both malformed-data and missing-company (the two failed companies)",
+      "max_score": 10
+    },
+    {
+      "name": "BUILD company auto-selected",
+      "description": "auto-select.py was run for valid-build (the BUILD-verdict company) and a selection.json was created in runs/2026-05-14T-devrel-summit-batch/valid-build/",
+      "max_score": 12
+    },
+    {
+      "name": "SKIP company not auto-selected",
+      "description": "No selection.json created for skip-corp (the SKIP-verdict company); it is noted as skipped without further processing",
+      "max_score": 8
+    },
+    {
+      "name": "AMBIGUOUS company flagged",
+      "description": "completion-log.txt notes ambiguous-corp as requiring manual re-invocation with parent/sub-brand format",
+      "max_score": 8
+    },
+    {
+      "name": "summarize-batch.py invoked",
+      "description": "completion-log.txt references skills/batch-driver/scripts/summarize-batch.py being called on the run directory to produce the summary",
+      "max_score": 14
+    },
+    {
+      "name": "index.md produced despite errors",
+      "description": "A file named index.md exists at runs/2026-05-14T-devrel-summit-batch/index.md",
+      "max_score": 12
+    },
+    {
+      "name": "Error count in index.md",
+      "description": "index.md shows a non-zero error count in its verdict counts section (reflecting the failed companies)",
+      "max_score": 6
+    },
+    {
+      "name": "Absolute path reported",
+      "description": "completion-log.txt contains an absolute path to index.md (starting with /) as the final output",
+      "max_score": 4
+    }
+  ]
+}

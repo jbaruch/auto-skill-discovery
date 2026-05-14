@@ -1,0 +1,6 @@
+{
+  "selection_status": "selected",
+  "selected_target_id": "tgt-payedge-capture",
+  "discovery_path": "./discovery.json",
+  "selection_rationale": "Highest confidence target with a well-documented REST API surface and clear differentiation from generic HTTP tooling"
+}

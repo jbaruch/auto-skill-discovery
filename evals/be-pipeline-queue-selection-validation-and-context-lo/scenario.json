@@ -1,0 +1,1 @@
+{ "description": "Selection validation and slug resolution", "include": ["./inputs"] }

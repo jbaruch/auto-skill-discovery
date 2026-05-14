@@ -1,0 +1,1 @@
+{ "description": "Batch summary generation from completed run directory", "include": ["./runs", "./skills"] }

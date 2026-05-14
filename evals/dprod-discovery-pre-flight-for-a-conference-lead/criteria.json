@@ -1,0 +1,56 @@
+{
+  "context": "The agent ran produce-mode discovery on 'Alphabet' and produced discovery.json. This scenario tests whether the agent correctly detects the hidden multi-brand structure in Step 1, exits early with an AMBIGUOUS verdict, populates the required AMBIGUOUS-shape fields, and does NOT auto-resolve by picking a sub-brand or proceeding to generate skill targets.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "verdict AMBIGUOUS",
+      "description": "discovery.json contains verdict with value \"AMBIGUOUS\".",
+      "max_score": 12
+    },
+    {
+      "name": "sub_brands_detected present",
+      "description": "discovery.json contains a sub_brands_detected field that is a non-empty array.",
+      "max_score": 10
+    },
+    {
+      "name": "Multiple sub-brands listed",
+      "description": "sub_brands_detected[] contains at least 3 entries (e.g., Google, Waymo, DeepMind, YouTube, Verily, or other Alphabet sub-brands).",
+      "max_score": 10
+    },
+    {
+      "name": "Sub-brand entries have name field",
+      "description": "Each entry in sub_brands_detected[] contains at least a name field.",
+      "max_score": 8
+    },
+    {
+      "name": "guidance field present",
+      "description": "discovery.json contains a guidance field with a non-empty string.",
+      "max_score": 8
+    },
+    {
+      "name": "guidance mentions parent/sub-brand",
+      "description": "The guidance field value contains both 'parent' and 'sub-brand' (or 'sub_brand') in its text, instructing the caller to re-invoke with a scoped input.",
+      "max_score": 10
+    },
+    {
+      "name": "No non-empty skill_targets",
+      "description": "discovery.json does NOT contain a skill_targets array with any entries — workflow exited before Step 4.",
+      "max_score": 12
+    },
+    {
+      "name": "schema_version 3 present",
+      "description": "discovery.json contains schema_version with value 3, even in the AMBIGUOUS short-circuit path.",
+      "max_score": 8
+    },
+    {
+      "name": "mode: produce present",
+      "description": "discovery.json contains mode with value \"produce\", even in the AMBIGUOUS short-circuit path.",
+      "max_score": 8
+    },
+    {
+      "name": "No auto-resolved sub-brand chosen",
+      "description": "discovery.json does NOT contain a domain_signal with core_themes and active_focus filled for a specific Alphabet sub-brand (e.g., no Google Cloud or DeepMind as the resolved scope). The agent did not silently pick one sub-brand.",
+      "max_score": 14
+    }
+  ]
+}

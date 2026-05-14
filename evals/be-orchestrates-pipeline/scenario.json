@@ -1,1 +1,0 @@
-{ "description": "Drive the full phases 4-10 pipeline with the canonical tessl command sequence", "include": ["./inputs"] }

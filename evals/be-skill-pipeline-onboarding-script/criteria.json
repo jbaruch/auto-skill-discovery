@@ -1,0 +1,66 @@
+{
+  "context": "The agent must produce pipeline.sh that accurately encodes the build-and-evaluate skill's CLI commands with correct flags, ordering, and error-handling logic. The criteria check whether skill-specific flags and constraints (count, threshold, variant names, agent model, path handling) appear correctly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "tessl skill new flags",
+      "description": "pipeline.sh includes a 'tessl skill new' command with --name, --description, and --path flags (all three must be present)",
+      "max_score": 8
+    },
+    {
+      "name": "Remove before scaffold",
+      "description": "pipeline.sh removes or checks for the existence of the generated-skill directory BEFORE running 'tessl skill new' (e.g., rm -rf, if [ -d ... ])",
+      "max_score": 8
+    },
+    {
+      "name": "Scenario generate flags",
+      "description": "pipeline.sh includes 'tessl scenario generate' with '--count 5' (exactly 5) AND '--json' flags both present",
+      "max_score": 12
+    },
+    {
+      "name": "Scenario download last flag",
+      "description": "pipeline.sh includes 'tessl scenario download' with the flag '--last'",
+      "max_score": 8
+    },
+    {
+      "name": "Negative case scenario",
+      "description": "pipeline.sh or a comment in it explicitly mentions hand-authoring a negative-case scenario (refuse/silence/bad-input) after the download step",
+      "max_score": 8
+    },
+    {
+      "name": "Skill review threshold",
+      "description": "pipeline.sh includes 'tessl skill review' with '--threshold 85' (exactly 85)",
+      "max_score": 10
+    },
+    {
+      "name": "Review retry cap",
+      "description": "pipeline.sh includes logic that caps re-review attempts (e.g., a loop with a counter, or a comment stating max 3 re-runs) and does NOT lower the threshold or add '--optimize'",
+      "max_score": 10
+    },
+    {
+      "name": "Eval variant without-context",
+      "description": "pipeline.sh includes 'tessl eval run' with '--variant without-context'",
+      "max_score": 8
+    },
+    {
+      "name": "Eval variant with-context",
+      "description": "pipeline.sh includes 'tessl eval run' with '--variant with-context'",
+      "max_score": 8
+    },
+    {
+      "name": "Eval agent flag",
+      "description": "pipeline.sh includes '--agent claude:claude-sonnet-4-6' on the 'tessl eval run' command",
+      "max_score": 10
+    },
+    {
+      "name": "compute-lift.py invocation",
+      "description": "pipeline.sh invokes 'compute-lift.py' with baseline-results.json as the first argument and with-skill-results.json as the second argument",
+      "max_score": 6
+    },
+    {
+      "name": "render-report.py invocation",
+      "description": "pipeline.sh invokes 'render-report.py' with run_dir as its argument",
+      "max_score": 4
+    }
+  ]
+}

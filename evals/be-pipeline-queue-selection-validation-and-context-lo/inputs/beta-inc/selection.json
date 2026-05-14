@@ -1,0 +1,6 @@
+{
+  "selection_status": "defer",
+  "selected_target_id": null,
+  "discovery_path": "./discovery.json",
+  "selection_rationale": "Low confidence across all discovered targets: Beta Inc. is in stealth mode with no public API documentation or GitHub presence. Insufficient signal to select a skill target — revisit after public launch."
+}

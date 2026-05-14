@@ -1,0 +1,56 @@
+{
+  "context": "The agent has a complete batch run directory and must generate the final summary report. This tests whether the agent uses summarize-batch.py (not custom markdown generation), whether the resulting index.md has the required schema sections, and whether the absolute path is reported.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "summarize-batch.py invoked",
+      "description": "summary-log.txt references skills/batch-driver/scripts/summarize-batch.py being called with the run directory path (not a custom script or manual report writing)",
+      "max_score": 14
+    },
+    {
+      "name": "index.md exists in run dir",
+      "description": "A file named index.md exists at runs/2026-05-12T-snyk-users/index.md",
+      "max_score": 12
+    },
+    {
+      "name": "Absolute path reported",
+      "description": "summary-log.txt contains an absolute path to index.md (path starting with /) as the output location",
+      "max_score": 10
+    },
+    {
+      "name": "Verdict counts in index.md",
+      "description": "index.md contains a section or lines listing counts for BUILD, SKIP, and AMBIGUOUS verdicts as separate labelled values",
+      "max_score": 10
+    },
+    {
+      "name": "Per-company table in index.md",
+      "description": "index.md contains a markdown table or structured list showing each company name and its verdict",
+      "max_score": 10
+    },
+    {
+      "name": "Aggregate lift section present",
+      "description": "index.md includes an aggregate lift section showing median or mean lift values (Cloud Nexus and Synthwave Labs both have lift.json data)",
+      "max_score": 12
+    },
+    {
+      "name": "Follow-up checklist in index.md",
+      "description": "index.md contains a follow-up section listing Datastream Analytics (SKIP) and Polaris AI (AMBIGUOUS) as requiring manual attention",
+      "max_score": 10
+    },
+    {
+      "name": "Batch ID/timestamp in header",
+      "description": "index.md begins with a header containing the batch ID or run timestamp (2026-05-12T-snyk-users)",
+      "max_score": 8
+    },
+    {
+      "name": "Total company count in header",
+      "description": "index.md header line includes the total number of companies in the batch (4)",
+      "max_score": 8
+    },
+    {
+      "name": "Report link for BUILD companies",
+      "description": "index.md per-company table includes links to report.md for at least one of the BUILD companies (Cloud Nexus or Synthwave Labs) that have a report file",
+      "max_score": 6
+    }
+  ]
+}

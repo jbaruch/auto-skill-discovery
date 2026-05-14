@@ -1,0 +1,11 @@
+{
+  "schema_version": 3,
+  "mode": "produce",
+  "company": {
+    "name": "Beta Inc.",
+    "canonical_url": "https://betainc.com",
+    "discovered_at": "2024-01-14T08:00:00Z"
+  },
+  "sources": [],
+  "skill_targets": []
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 3,
+  "mode": "produce",
+  "company": {
+    "name": "PayEdge",
+    "canonical_url": "https://payedge.io",
+    "discovered_at": "2024-01-15T10:00:00Z"
+  },
+  "sources": [
+    {
+      "authority_rank": 1,
+      "kind": "docs",
+      "url": "https://docs.payedge.io/api/v2"
+    },
+    {
+      "authority_rank": 2,
+      "kind": "github",
+      "url": "https://github.com/payedge/payedge-node"
+    }
+  ],
+  "skill_targets": [
+    {
+      "id": "tgt-payedge-capture",
+      "title": "payedge-payment-capture",
+      "kind": "api_wrapper",
+      "confidence": 0.88,
+      "rationale": "PayEdge's payment capture API handles the core transactional flow with idempotency keys, retry semantics, and webhook confirmation — patterns that generic HTTP tooling does not encode.",
+      "differentiation_hypothesis": "Agents without this skill default to generic REST calls and miss idempotency key requirements, leading to duplicate charges in high-latency scenarios.",
+      "existing_competition": "Generic HTTP docs do not cover PayEdge-specific retry semantics or idempotency key format.",
+      "domain_signal": "fintech payment processing",
+      "product_surface": "REST API v2",
+      "agentic_landscape": "AI-assisted payment reconciliation tools are emerging; agents are beginning to automate refund and capture flows"
+    }
+  ]
+}

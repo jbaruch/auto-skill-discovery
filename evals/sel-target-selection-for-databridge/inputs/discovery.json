@@ -1,0 +1,22 @@
+{
+  "schema_version": 2,
+  "company_slug": "databridge",
+  "verdict": "AMBIGUOUS",
+  "sub_brands_detected": [
+    {
+      "name": "DataBridge Cloud",
+      "hint": "Distinct cloud data platform with its own GitHub org (databridge-cloud) and docs portal at cloud.databridge.io"
+    },
+    {
+      "name": "DataBridge Edge",
+      "hint": "On-premise edge processing product with separate npm package namespace @databridge-edge and independent release cadence"
+    },
+    {
+      "name": "DataBridge Streams",
+      "hint": "Real-time streaming product with dedicated engineering team, own PyPI packages (databridge-streams), and separate changelog"
+    }
+  ],
+  "guidance": "DataBridge operates three structurally independent engineering surfaces. Each has its own GitHub organization, package namespace, and documentation portal. Re-invoke discovery with 'databridge/databridge-cloud', 'databridge/databridge-edge', or 'databridge/databridge-streams' to target a specific sub-brand.",
+  "search_attempted": true,
+  "skill_targets": []
+}

@@ -1,1 +1,0 @@
-{ "description": "Refuse silently on empty/all-blank input; do not fabricate a triage", "include": ["./inputs"] }

@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "company_slug": "streamlinehq",
+  "verdict": "BUILD",
+  "skill_targets": [
+    {
+      "id": "tgt_01",
+      "title": "StreamlineHQ CLI Automation SDK",
+      "kind": "sdk",
+      "confidence": 0.88,
+      "iu_level": "confirmed",
+      "pop_level": "majority",
+      "ts_level": "USE",
+      "task_shape": "automate",
+      "size_class": "medium",
+      "internal_usage_surface": "engineering-platform-team",
+      "internal_usage_level": "confirmed",
+      "rationale": "StreamlineHQ's CLI is actively used by the majority of engineering teams for CI pipeline orchestration. Usage is confirmed via internal tooling audit.",
+      "differentiation_hypothesis": "A skill covering the CLI SDK would allow agents to author and debug automation pipelines without manual setup, reducing onboarding time by an estimated 60%.",
+      "existing_competition": "Generic shell scripting guides; no agent-ready SDK skill exists"
+    },
+    {
+      "id": "tgt_02",
+      "title": "StreamlineHQ Webhook Integration API",
+      "kind": "api",
+      "confidence": 0.82,
+      "iu_level": "inferred",
+      "pop_level": "minority",
+      "ts_level": "AUTHOR",
+      "task_shape": "integrate",
+      "size_class": "small",
+      "internal_usage_surface": "platform-integrations",
+      "internal_usage_level": "inferred",
+      "rationale": "Webhook API is used by a minority of teams building event-driven workflows. Usage inferred from GitHub issues and changelog entries.",
+      "differentiation_hypothesis": "Agents with this skill can autonomously set up bidirectional webhook pipelines, a task currently requiring significant manual configuration.",
+      "existing_competition": "Generic REST API guides; StreamlineHQ docs exist but are not agent-optimized"
+    },
+    {
+      "id": "tgt_03",
+      "title": "StreamlineHQ Plugin Development Framework",
+      "kind": "framework",
+      "confidence": 0.75,
+      "iu_level": "confirmed",
+      "pop_level": "small_team",
+      "ts_level": "INTEGRATE",
+      "task_shape": "extend",
+      "size_class": "large",
+      "internal_usage_surface": "core-extensions-team",
+      "internal_usage_level": "confirmed",
+      "rationale": "Plugin framework used exclusively by a small extensions team. Confirmed usage but limited internal audience.",
+      "differentiation_hypothesis": "Enabling agents to scaffold and test plugins could accelerate the ecosystem, but the narrow audience limits booth-aha impact.",
+      "existing_competition": "Internal wiki docs; no external skill exists"
+    },
+    {
+      "id": "tgt_04",
+      "title": "StreamlineHQ Legacy Import Tool",
+      "kind": "tool",
+      "confidence": 0.40,
+      "iu_level": "weak",
+      "pop_level": "small_team",
+      "ts_level": "USE",
+      "task_shape": "migrate",
+      "size_class": "small",
+      "internal_usage_surface": "data-migration",
+      "internal_usage_level": "weak",
+      "rationale": "Legacy import tool used occasionally during migrations. Low confidence due to sparse documentation and infrequent usage.",
+      "differentiation_hypothesis": "Narrow use case with limited reuse potential.",
+      "existing_competition": "Ad-hoc migration scripts"
+    }
+  ]
+}

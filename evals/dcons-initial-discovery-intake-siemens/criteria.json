@@ -1,0 +1,46 @@
+{
+  "context": "The agent ran the discovery intake for Siemens and produced discovery.json. Siemens is a large German conglomerate with multiple structurally distinct sub-brands (Siemens Energy AG, Siemens Healthineers AG, Siemens Digital Industries, Siemens Smart Infrastructure, etc.) each with separate GitHub orgs and engineering surfaces. This scenario tests whether the agent detects the hidden multi-brand structure and produces an AMBIGUOUS verdict early, rather than proceeding to full discovery or silently picking one sub-brand.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "verdict AMBIGUOUS",
+      "description": "discovery.json has verdict='AMBIGUOUS' at the top level.",
+      "max_score": 20
+    },
+    {
+      "name": "sub_brands_detected present",
+      "description": "discovery.json contains a sub_brands_detected array at the top level.",
+      "max_score": 15
+    },
+    {
+      "name": "sub_brands minimum count",
+      "description": "sub_brands_detected contains at least 2 entries, each with a name field. At least one entry references a recognizable Siemens division (e.g., Siemens Energy, Siemens Healthineers, Siemens Digital Industries, Siemens Smart Infrastructure, or similar).",
+      "max_score": 15
+    },
+    {
+      "name": "no skill_targets",
+      "description": "discovery.json does NOT contain a non-empty skill_targets array. Either the field is absent or it is an empty array. (AMBIGUOUS exits before Step 4.)",
+      "max_score": 12
+    },
+    {
+      "name": "sources present",
+      "description": "discovery.json contains a sources[] array with at least 1 entry, confirming research was performed in Step 1 before declaring AMBIGUOUS.",
+      "max_score": 10
+    },
+    {
+      "name": "re-invocation guidance",
+      "description": "discovery.json contains a guidance field (or an equivalent field) that instructs the caller to re-invoke with a parent/sub-brand format (e.g., 'Re-invoke with Siemens/<sub-brand>').",
+      "max_score": 10
+    },
+    {
+      "name": "intake-notes.md exists",
+      "description": "A file named intake-notes.md exists in the working directory with at least one paragraph of content.",
+      "max_score": 8
+    },
+    {
+      "name": "company field present",
+      "description": "discovery.json contains a company object with at least a name field set to 'Siemens' (or equivalent canonical name).",
+      "max_score": 10
+    }
+  ]
+}
