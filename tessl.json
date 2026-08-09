@@ -3,7 +3,7 @@
   "mode": "vendored",
   "dependencies": {
     "jbaruch/coding-policy": {
-      "version": "0.3.22"
+      "version": "latest"
     }
   }
 }
